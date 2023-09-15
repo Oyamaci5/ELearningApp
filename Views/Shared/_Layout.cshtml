@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="~/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/carousel.css">
     <link rel="stylesheet" href="~/css/animate.css">
-    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/style.css"> <!--roota dön-->
 
     <!--[if lt IE 9]>
         <script src="js/vendor/html5shiv.min.js"></script>
@@ -70,21 +70,21 @@
                             <span class="icon-bar"></span>
                         </button>
                         <div class="logo-normal">
-                            <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt=""></a>
+                            <a asp-controller="Home" asp-action="Index"><img src="images/logo.png" alt=""></a>
                         </div>
                     </div>
 
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="index.html">Home</a></li>
+                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                             <li class="dropdown yamm-fw yamm-half">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle active">Courses<b class="fa fa-angle-down"></b></a>
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle active">Categories<b class="fa fa-angle-down"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <div class="yamm-content clearfix">
                                             <div class="row-fluid">
                                                 <div class="col-md-6 col-sm-6">
-                                                    <h4>Course Pages</h4>
+                                                    <h4>Categories</h4>
                                                     <ul>
                                                         <li><a href="#">Courses Name 01</a></li>
                                                         <li><a href="#">Courses Name 02</a></li>
@@ -115,7 +115,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="events.html">Events</a></li>
                             <li class="dropdown hassubmenu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Shop <span class="fa fa-angle-down"></span></a>
                                 <ul class="dropdown-menu" role="menu">
@@ -124,8 +123,8 @@
                                 </ul>
                             </li>
 
-                            <li><a href="page-contact.html">Contact</a></li>
-                            <li><a asp-controller="Home" asp-action="Login">Log in</a></li>
+                            <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                            <li><a asp-controller="Home" asp-action="Login">Log in</a></li> <!--login sayfsı açma-->
                             <li class="iconitem"><a href="#" data-toggle="modal" data-target="#login-modal"><i class="fa fa-search"></i></a></li>
                             <li class="iconitem"><a class="shopicon" href="shop-cart.html"><i class="fa fa-shopping-basket"></i> &nbsp;(0)</a></li>
                         </ul>
