@@ -13,6 +13,14 @@ namespace LearningApp.Controllers
         private readonly ILogger<HomeController> _logger;
 
         [HttpGet]
+        public IActionResult Contact()
+        {
+            // Diğer işlemler
+            return View(); // Görünüm adını belirtin
+        }
+
+
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
@@ -40,14 +48,6 @@ namespace LearningApp.Controllers
         public IActionResult Register()
         {
             return View();
-        }
-
-        [HttpPost]
-        public IActionResult Register(string username, string password)
-        {
-            // Kullanıcı kaydı işlemini burada gerçekleştirin.
-            // Örneğin, veritabanına yeni bir kullanıcı kaydedebilirsiniz.
-            return RedirectToAction("Login"); // Kayıt işlemi tamamlandığında giriş sayfasına yönlendirin.
         }
 
         // Kullanıcıyı doğrulama işlemini gerçekleştirin.
