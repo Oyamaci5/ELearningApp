@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using LearningApp.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<LearningAppContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'LearningAppContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
