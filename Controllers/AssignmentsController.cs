@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LearningApp.Data;
-using LearningApp.Models;
+using elearningapp.Data;
+using elearningapp.Models;
 
-namespace LearningApp.Controllers
+namespace elearningapp.Controllers
 {
     public class AssignmentsController : Controller
     {
-        private readonly LearningAppContext _context;
+        private readonly LearningAppDbContext _context;
 
-        public AssignmentsController(LearningAppContext context)
+        public AssignmentsController(LearningAppDbContext context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace LearningApp.Controllers
         {
               return _context.Assignments != null ? 
                           View(await _context.Assignments.ToListAsync()) :
-                          Problem("Entity set 'LearningAppContext.Assignments'  is null.");
+                          Problem("Entity set 'LearningAppDbContext.Assignments'  is null.");
         }
 
         // GET: Assignments/Details/5
@@ -56,7 +56,7 @@ namespace LearningApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CourseId,Title,Descriptions,DueDate")] Assignments assignments)
+        public async Task<IActionResult> Create([Bind("Id,CourseId,Title,Description,DueDate")] Assignments assignments)
         {
             if (ModelState.IsValid)
             {
@@ -143,7 +143,7 @@ namespace LearningApp.Controllers
         {
             if (_context.Assignments == null)
             {
-                return Problem("Entity set 'LearningAppContext.Assignments'  is null.");
+                return Problem("Entity set 'LearningAppDbContext.Assignments'  is null.");
             }
             var assignments = await _context.Assignments.FindAsync(id);
             if (assignments != null)

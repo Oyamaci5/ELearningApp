@@ -1,8 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace LearningApp.Models
+﻿namespace elearningapp.Models
 {
-    public partial class Assignments
+    public class Assignments
     {
         public int Id { get; set; }
         public int CourseId { get; set; }

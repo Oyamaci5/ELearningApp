@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LearningApp.Data;
-using LearningApp.Models;
+using elearningapp.Data;
+using elearningapp.Models;
 
-namespace LearningApp.Controllers
+namespace elearningapp.Controllers
 {
     public class EnrollmentsController : Controller
     {
-        private readonly LearningAppContext _context;
+        private readonly LearningAppDbContext _context;
 
-        public EnrollmentsController(LearningAppContext context)
+        public EnrollmentsController(LearningAppDbContext context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace LearningApp.Controllers
         {
               return _context.Enrollments != null ? 
                           View(await _context.Enrollments.ToListAsync()) :
-                          Problem("Entity set 'LearningAppContext.Enrollments'  is null.");
+                          Problem("Entity set 'LearningAppDbContext.Enrollments'  is null.");
         }
 
         // GET: Enrollments/Details/5
@@ -143,7 +143,7 @@ namespace LearningApp.Controllers
         {
             if (_context.Enrollments == null)
             {
-                return Problem("Entity set 'LearningAppContext.Enrollments'  is null.");
+                return Problem("Entity set 'LearningAppDbContext.Enrollments'  is null.");
             }
             var enrollments = await _context.Enrollments.FindAsync(id);
             if (enrollments != null)
