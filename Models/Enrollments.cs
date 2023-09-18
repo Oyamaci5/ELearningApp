@@ -1,6 +1,6 @@
-﻿namespace LearningApp.Models
+﻿namespace elearningapp.Models
 {
-    public partial class Enrollments
+    public class Enrollments
     {
         public int Id { get; set; }
         public int UserId { get; set; }

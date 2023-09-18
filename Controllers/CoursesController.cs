@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LearningApp.Data;
-using LearningApp.Models;
+using elearningapp.Data;
+using elearningapp.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace LearningApp.Controllers
+namespace elearningapp.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly LearningAppContext _context;
+        private readonly LearningAppDbContext _context;
 
-        public CoursesController(LearningAppContext context)
+        public CoursesController(LearningAppDbContext context)
         {
             _context = context;
         }
@@ -24,7 +25,7 @@ namespace LearningApp.Controllers
         {
               return _context.Courses != null ? 
                           View(await _context.Courses.ToListAsync()) :
-                          Problem("Entity set 'LearningAppContext.Courses'  is null.");
+                          Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
         }
 
         // GET: Courses/Details/5
@@ -68,6 +69,7 @@ namespace LearningApp.Controllers
         }
 
         // GET: Courses/Edit/5
+        [Authorize(Roles = "Admin, Instructor" )]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Courses == null)
@@ -119,6 +121,7 @@ namespace LearningApp.Controllers
         }
 
         // GET: Courses/Delete/5
+        [Authorize (Roles = "Admin")] 
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Courses == null)
@@ -143,7 +146,7 @@ namespace LearningApp.Controllers
         {
             if (_context.Courses == null)
             {
-                return Problem("Entity set 'LearningAppContext.Courses'  is null.");
+                return Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
             }
             var courses = await _context.Courses.FindAsync(id);
             if (courses != null)
