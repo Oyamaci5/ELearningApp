@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using elearningapp.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using LearningApp.Controllers;
 
 namespace elearningapp.Controllers
 {
@@ -12,22 +15,58 @@ namespace elearningapp.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
 
-        public UsersController(UserManager<IdentityUser> userManager)
+        private readonly LearningAppDbContext _context;
+        private readonly LearningAppIdentityDbContext _idcontext;
+
+        public UsersController(UserManager<IdentityUser> userManager , LearningAppDbContext context, LearningAppIdentityDbContext contextid )
         {
-            _userManager = userManager;
-        }
+            _context = context;
+            _idcontext = contextid; 
+			_userManager = userManager;
+		}
         //GET : Dashboard
         public async Task<IActionResult> Dashboard()
         {
-            return View();
+			return View();
         }
+
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var users = await _userManager.Users.ToListAsync();
-            return View(users);
-        }
 
+            var users = await _userManager.Users.ToListAsync();
+            List<UserWasRole> list = new List<UserWasRole>();
+
+            
+            /*var roles = await _userManager.GetRolesAsync(user.Identity.GetUserId());  */
+            foreach (IdentityUser user in users)
+            {
+                UserWasRole UserwithRole = new UserWasRole();
+                UserwithRole.Roles = new List<string>();
+                UserwithRole.Username = user.UserName;
+                //UserwithRole.Roles = _userManager.GetRolesAsync(user.Id.ToString());     
+                var sqlRoles = from x in _idcontext.UserRoles
+                            where x.UserId == user.Id
+                            select x;
+                //UserwithRole.Roles = sqlRoles.ToList<string>();
+                foreach(var role in sqlRoles)
+                {
+                    
+					var roleNames = from x in _idcontext.Roles
+								   where x.Id == role.RoleId
+								   select x;
+                    foreach(var name in roleNames)
+                    {
+						UserwithRole.Roles.Add(name.Name);
+					}
+				}
+                list.Add(UserwithRole);
+            }
+
+            return View(list);
+
+        }
+        
         public IActionResult Create()
         {
             return View();
@@ -164,6 +203,6 @@ namespace elearningapp.Controllers
         }
     }
 
-    
-    }
+
+}
 
