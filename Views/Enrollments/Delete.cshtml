@@ -1,4 +1,12 @@
-﻿@model elearningapp.Models.Enrollments
+﻿@*
+    <summary>
+    Delete.cshtml
+    This Razor page displays a confirmation prompt to delete an enrollment in the e-learning app.
+    It shows the user ID, course ID, and enrollment date of the selected enrollment.
+    Users can either confirm the deletion or go back to the list of enrollments.
+    </summary>
+*@
+@model elearningapp.Models.Enrollments
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,26 +19,26 @@
     <h4>Enrollments</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UserId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserId)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CourseId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CourseId)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EnrollmentDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EnrollmentDate)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

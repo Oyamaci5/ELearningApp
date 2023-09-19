@@ -1,4 +1,12 @@
-﻿@model elearningapp.Models.Enrollments
+﻿@*
+    <summary>
+        Details.cshtml
+        This Razor page displays detailed information about an enrollment in the e-learning app. It includes the user 
+    ID, course ID, and enrollment date. Users have the option to edit the enrollment or go back to the list of enrollments.
+    </summary>
+*@
+
+@model elearningapp.Models.Enrollments
 
 @{
     ViewData["Title"] = "Details";
@@ -10,22 +18,22 @@
     <h4>Enrollments</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UserId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserId)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CourseId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CourseId)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EnrollmentDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EnrollmentDate)
         </dd>
     </dl>

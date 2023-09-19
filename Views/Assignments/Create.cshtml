@@ -1,4 +1,19 @@
-﻿@model elearningapp.Models.Assignments
+﻿@*Create.cshtml
+
+This Razor page facilitates the creation of assignments within the e-learning application. Here's a summary of its key features:
+
+- Utilizes the `elearningapp.Models.Assignments` model.
+- Sets the page title to "Create".
+- Provides a form for users to input assignment details.
+- Routes the form submission to the "Create" action.
+- Displays model-level validation errors in red.
+- Allows users to input Course ID, Title, Description, and Due Date for the assignment.
+- The "Create" button submits the form to create the assignment.
+- Includes a "Back to List" link for returning to the list page.
+
+This page streamlines the process of creating assignments in the e-learning application. *@
+
+@model elearningapp.Models.Assignments
 
 @{
     ViewData["Title"] = "Create";

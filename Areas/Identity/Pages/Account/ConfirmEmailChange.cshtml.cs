@@ -13,38 +13,43 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace elearningapp.Areas.Identity.Pages.Account
 {
+    // The ConfirmEmailChangeModel class is responsible for handling the confirmation of an email address change.
     public class ConfirmEmailChangeModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
+        // Constructor for ConfirmEmailChangeModel, which injects the UserManager and SignInManager.
         public ConfirmEmailChangeModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
+        // TempData property used for storing status messages to be displayed.
         [TempData]
         public string StatusMessage { get; set; }
 
+        // OnGetAsync method handles HTTP GET requests to the page.
         public async Task<IActionResult> OnGetAsync(string userId, string email, string code)
         {
             if (userId == null || email == null || code == null)
             {
+                // If any of the required parameters are null, redirect to the /Index page.
                 return RedirectToPage("/Index");
             }
 
+            // Retrieve user based on user ID.
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
+            // Decode the Base64 URL code to obtain the confirmation code.
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+
+            // Attempt to change the user's email address.
             var result = await _userManager.ChangeEmailAsync(user, email, code);
             if (!result.Succeeded)
             {
@@ -61,9 +66,11 @@ namespace elearningapp.Areas.Identity.Pages.Account
                 return Page();
             }
 
+            // Refresh the user's sign-in information.
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Thank you for confirming your email change.";
             return Page();
         }
     }
 }
+

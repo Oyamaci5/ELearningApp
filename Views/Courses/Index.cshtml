@@ -1,31 +1,39 @@
-﻿@model IEnumerable<elearningapp.Models.Courses>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Courses</title>
-    <link rel="stylesheet" href="css/style.css"> 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script>$(document).ready(function () {
-            var owl = $('.owl-carousel');
-            owl.owlCarousel({
-                items: 3,
-                loop: true,
-                margin: 10, 
-                autoplay: true,
-                autoplayTimeout: 2000,
-                autoplayHoverPause: true
-            });
-        });</script>
-</head>
-<body>
-    <div class="container">
-        <h1>Courses</h1>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="owl-carousel owl-theme">
-                    @foreach (var item in Model)
+﻿@*
+    <summary>
+        Index.cshtml
+        This Razor page displays a list of courses in the e-learning app. It utilizes a carousel to showcase the course images and
+        provides details like category, title, description, enrollment count, and an "Enroll" button for each course.
+    </summary>
+*@
+@model IEnumerable<elearningapp.Models.Courses>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Courses</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script>
+    $(document).ready(function () {
+                var owl = $('.owl-carousel');
+                owl.owlCarousel({
+                    items: 3,
+                    loop: true,
+                    margin: 10,
+                    autoplay: true,
+                    autoplayTimeout: 2000,
+                    autoplayHoverPause: true
+                });
+            });</script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Courses</h1>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="owl-carousel owl-theme">
+                        @foreach (var item in Model)
                     {
                         <div class="col-md-12">
                             <div class="course-box shop-wrap">
@@ -45,31 +53,31 @@
                                         </a>
                                     </h4>
                                     <p><small style="color: black;">@Html.DisplayFor(modelItem => item.Description)</small></p>
-                                
-                                <!-- end details -->
-                                <div class="pull-left">
-                                    <ul class="list-inline">
-                                        <li><a href="#"><i class="fa fa-user"></i> @Html.DisplayFor(modelItem => item.EnrollmentCount)</a></li>
-                                    </ul>
+
+                                    <!-- end details -->
+                                    <div class="pull-left">
+                                        <ul class="list-inline">
+                                            <li><a href="#"><i class="fa fa-user"></i> @Html.DisplayFor(modelItem => item.EnrollmentCount)</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="pull-right">
+                                        <ul>
+
+                                            <button class="btn btn-primary btn-sm">Enroll</button>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="pull-right">
-                                    <ul>
-                                        
-                                        <button class="btn btn-primary btn-sm">Enroll</button>
-                                    </ul>
-                                </div>
-                            </div>
                             </div><!-- end box -->
-                            
+
                         </div><!-- end col -->
                     }
-                </div><!-- end owl-carousel -->
-            </div><!-- end col-md-12 -->
-        </div><!-- end row -->
-    </div><!-- end container -->
+                    </div><!-- end owl-carousel -->
+                </div><!-- end col-md-12 -->
+            </div><!-- end row -->
+        </div><!-- end container -->
 
-    <br>
-    <br>
-    <br>
-</body>
+        <br>
+        <br>
+        <br>
+    </body>
 </html>

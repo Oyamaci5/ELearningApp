@@ -1,4 +1,10 @@
-﻿@model elearningapp.Models.Courses
+﻿@*
+    <summary>
+    Delete.cshtml
+    This Razor page allows users to confirm the deletion of a course in the e-learning app. It displays course details including title, description, instructor ID, category, enrollment count, image URL, and course duration. Users can either proceed with the deletion or go back to the list of courses.
+    </summary>
+*@
+@model elearningapp.Models.Courses
 
 @{
     ViewData["Title"] = "Delete";
@@ -54,7 +60,7 @@
             @Html.DisplayFor(model => model.CourseDuration)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
