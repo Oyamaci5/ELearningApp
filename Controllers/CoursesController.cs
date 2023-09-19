@@ -13,9 +13,9 @@ namespace elearningapp.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly LearningAppDbContext _context;
+        private readonly LearningAppIdentityDbContext _context;
 
-        public CoursesController(LearningAppDbContext context)
+        public CoursesController(LearningAppIdentityDbContext context)
         {
             _context = context;
         }

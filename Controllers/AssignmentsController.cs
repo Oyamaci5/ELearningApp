@@ -12,9 +12,9 @@ namespace elearningapp.Controllers
 {
     public class AssignmentsController : Controller
     {
-        private readonly LearningAppDbContext _context;
+        private readonly LearningAppIdentityDbContext _context;
 
-        public AssignmentsController(LearningAppDbContext context)
+        public AssignmentsController(LearningAppIdentityDbContext context)
         {
             _context = context;
         }
