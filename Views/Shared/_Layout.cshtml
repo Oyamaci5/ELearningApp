@@ -31,12 +31,12 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="index.html">Home</a></li>
                             <li class="dropdown yamm-fw yamm-half">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle active">Mega Menu <b class="fa fa-angle-down"></b></a>
+                                <a asp-controller="Courses" asp-action="" data-toggle="dropdown" class="dropdown-toggle active">Courses</a>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <div class="yamm-content clearfix">
                                             <div class="row-fluid">
-                                                <div class="col-md-6 col-sm-6">
+                                                <div class="col-md-6 col-sm-6" >
                                                     <h4>Course Pages</h4>
                                                     <ul>
                                                         <li><a href="#">Courses Name 01</a></li>
@@ -68,26 +68,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="events.html">Events</a></li>
-                            <li class="dropdown hassubmenu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Shop <span class="fa fa-angle-down"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="shop.html">Shop Layout</a></li>
-                                    <li><a href="shop-single.html">Shop Single</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown hassubmenu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Blog <span class="fa fa-angle-down"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="blog.html">Blog Right Sidebar</a></li>
-                                    <li><a href="blog-1.html">Blog Left Sidebar</a></li>
-                                    <li><a href="blog-2.html">Blog Grid Sidebar</a></li>
-                                    <li><a href="blog-3.html">Blog Grid Fullwidth</a></li>
-                                    <li><a href="blog-single.html">Blog Single</a></li>
-                                </ul>
-                            </li>
                             <li><a href="page-contact.html">Contact</a></li>
-                            <li class="iconitem"><a href="#" data-toggle="modal" data-target="#login-modal"><i class="fa fa-search"></i></a></li>
                             <li class="iconitem"><a class="shopicon" href="shop-cart.html"><i class="fa fa-shopping-basket"></i> &nbsp;(0)</a></li>
                             <partial name="_LoginPartial" />
                         </ul>
