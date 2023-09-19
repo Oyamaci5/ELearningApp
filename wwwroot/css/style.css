@@ -419,6 +419,133 @@ HEADER
 .iconitem a {
     padding-left: 8px !important;
 }
+/******************************************
+Courses
+******************************************/
+
+.shop-top {
+    margin-bottom: 30px;
+    padding: 20px 0;
+    display: block;
+}
+
+    .shop-top p,
+    .shop-box.course-details h4 {
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+.shop-wrapper {
+    border: 0;
+}
+
+    .shop-wrapper .course-details {
+        padding: 2rem;
+    }
+
+    .shop-wrapper.course-box small {
+        margin-bottom: 0;
+        margin-top: 5px;
+    }
+
+.shop-grid .col-md-3 {
+    margin-bottom: 30px;
+}
+
+.btn-group.open .dropdown-toggle,
+.bootstrap-select > .dropdown-toggle {
+    background: #ffffff none repeat scroll 0 0 !important;
+    box-shadow: none !important;
+    color: #b9b9b9 !important;
+    padding: 0;
+    border: 0 !important;
+    outline: none;
+    width: 100%;
+    z-index: 1;
+}
+
+.shop-desc small {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.shop-meta {
+    display: block;
+    position: relative;
+    margin: 30px 0;
+    padding: 30px 0;
+    border-top: 3px solid #f6f6f6;
+    border-bottom: 3px solid #f6f6f6;
+}
+
+    .shop-meta ul {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        margin-top: 20px;
+    }
+
+.shop-media .image-wrap::after {
+    display: none;
+}
+
+.shop-extra {
+    margin-top: 40px;
+    padding: 60px 60px 40px;
+    border: 3px solid #f6f6f6;
+}
+
+    .shop-extra .nav-tabs > li > a {
+        background-color: #ffffff !important;
+        border: 0 !important;
+        border-bottom: 3px solid transparent !important;
+        border-radius: 0;
+        font-weight: 700;
+        outline: none !important;
+        font-size: 17px;
+        line-height: 1.42857;
+        padding: 10px 30px;
+        box-shadow: none !important;
+        margin-right: 15px;
+    }
+
+    .shop-extra .nav-tabs {
+        border-bottom: 3px solid #f6f6f6 !important;
+    }
+
+        .shop-extra .nav-tabs > li:hover a,
+        .shop-extra .nav-tabs > li.active a {
+            border-bottom-color: #111 !important;
+        }
+
+    .shop-extra .tab-content {
+        padding: 40px 0 30px;
+    }
+
+    .shop-extra strong {
+        color: #000000;
+    }
+
+    .shop-extra .tab-content h3 {
+        font-size: 20px;
+        padding: 0 0 30px;
+        margin: 0;
+    }
+
+    .shop-extra .form-control {
+        margin-bottom: 20px;
+    }
+
+.related-products {
+    display: block;
+    margin-top: 80px;
+}
+
+    .related-products .text-widget h3 {
+        font-size: 20px;
+        padding-bottom: 10px;
+    }
 
 
 /******************************************
