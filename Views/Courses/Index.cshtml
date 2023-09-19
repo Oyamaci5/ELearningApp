@@ -9,64 +9,47 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<div class="container">
+    <h1>Courses</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="owl-carousel owl-theme">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-12 course-box shop-wrap">
+                        <div class="image-wrap entry">
+                            <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" width="400" height="400">
+                            <div class="magnifier">
+                                <a href="shop-single.html" title=""><i class="flaticon-add"></i></a>
+                            </div>
+                        </div>
+                        <!-- end image-wrap -->
+                        <!--details -->
+                        <div class="course-details shop-box text-center">
+                            <h4>
+                                <small style="color: black;">@Html.DisplayFor(modelItem => item.Category)</small>
+                                <a asp-controller="Assignments" asp-action="" title="Details" style="color: darkblue;">
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </a>
+                            </h4>
+                            <p><small style="color: black;">@Html.DisplayFor(modelItem => item.Description)</small></p>
+                            <!-- end details -->
+                            <div class="pull-left">
+                                <ul class="list-inline">
+                                    <li><a href="#"><i class="fa fa-user"></i> @Html.DisplayFor(modelItem => item.EnrollmentCount)</a></li>
+                                </ul>
+                            </div>
+                            <div class="enroll-button">
+                                <ul>
+                                    <button class="btn btn-primary btn-sm">Enroll</button>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EnrollmentCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseDuration)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Instructor)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EnrollmentCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseDuration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instructor.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    <!-- end course-box -->
+                }
+            </div><!-- end owl-carousel -->
+        </div><!-- end col-md-12 -->
+    </div><!-- end row -->
+</div><!-- end container -->
