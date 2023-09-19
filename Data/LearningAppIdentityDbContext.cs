@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using elearningapp.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace elearningapp.Data
 {
@@ -11,8 +13,11 @@ namespace elearningapp.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
+			base.OnModelCreating(builder);
+
         }
-        
-    }
+		public DbSet<Courses> Courses { get; set; }
+		public DbSet<Enrollments> Enrollments { get; set; }
+		public DbSet<Assignments> Assignments { get; set; }
+	}
 }
