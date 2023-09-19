@@ -3,51 +3,69 @@
 @{
     ViewData["Title"] = "Index";
 }
-
 <h1>Index</h1>
+<section class="section">
+    <div class="container">
+        <div class=" ">
+            <div class="row">
+                <div class="col-md-6 shop-media">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="image-wrap entry">
+                                <img src="upload/single_shop_01.jpg" alt="" class="img-responsive"> <!--src Course,ImageUrl-->
+                                <div class="magnifier">
+                                    <a rel="prettyPhoto[inline]" href="upload/single_shop_01.jpg" title=""><i class="flaticon-add"></i></a>
+                                </div>
+                            </div><!-- end image-wrap -->
+                        </div>
+                    </div><!-- end row -->
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DueDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    <hr class="invis">
+                </div><!-- end col -->
+
+                <div class="col-md-6">
+                    <div class="shop-desc">
+                        <h3>Course title geliyor gelmekte olan</h3> <!--Course,title-->
+                        <p>Course description gelecek</p> <!--Course,description-->
+                        <div class="shop-meta">
+                            <a href="#" class="btn btn-primary">Enroll</a>
+                            <ul class="list-inline">
+                                <li>Categories: <a href="#">Buraya da Course,category</a> <!--Course,category-->
+                            </ul>
+                        </div><!-- end shop meta -->
+                    </div><!-- end desc -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+
+            <hr class="invis">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="shop-extra">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#home">Course Content </a></li>
+                        </ul>
+                        <!--<div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Burası (Assignments,title) canı gelmek isterse <!--Assignments,titlelaar
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <strong>Assignments,decriptions gele de bilir gelmeye de bilir</strong> <!--assignments,decriptions
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                        <div class="tab-content">
+                        </div><!-- end shop-extra -->
+                    </div><!-- end col -->
+                </div><!-- end row -->
+
+                <hr class="invis">
+            </div><!-- end boxed -->
+        </div><!-- end container -->
+</section>

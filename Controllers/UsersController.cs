@@ -5,7 +5,6 @@ using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using elearningapp.Data;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using LearningApp.Controllers;
 
 namespace elearningapp.Controllers
@@ -14,13 +13,10 @@ namespace elearningapp.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-
-        private readonly LearningAppDbContext _context;
         private readonly LearningAppIdentityDbContext _idcontext;
 
-        public UsersController(UserManager<IdentityUser> userManager , LearningAppDbContext context, LearningAppIdentityDbContext contextid )
+        public UsersController(UserManager<IdentityUser> userManager , LearningAppIdentityDbContext contextid )
         {
-            _context = context;
             _idcontext = contextid; 
 			_userManager = userManager;
 		}
@@ -217,8 +213,8 @@ namespace elearningapp.Controllers
 
         public async Task<IActionResult> CourseList()
         {
-            return _context.Courses != null ?
-                          View(await _context.Courses.ToListAsync()) :
+            return _idcontext.Courses != null ?
+                          View(await _idcontext.Courses.ToListAsync()) :
                           Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
         }
     }
