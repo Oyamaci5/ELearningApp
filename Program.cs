@@ -15,7 +15,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 
 builder.Services.AddDefaultIdentity<IdentityUser>
     //.AddDefaultTokenProviders()
-    (options => options.SignIn.RequireConfirmedAccount = false)
+    (options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<LearningAppIdentityDbContext>();
 //builder.Services.AddIdentity<IdentityUser, IdentityRole>()

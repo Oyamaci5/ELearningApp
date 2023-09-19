@@ -16,7 +16,11 @@ namespace elearningapp.Controllers
         {
             _userManager = userManager;
         }
-
+        //GET : Dashboard
+        public async Task<IActionResult> Dashboard()
+        {
+            return View();
+        }
         // GET: Users
         public async Task<IActionResult> Index()
         {
@@ -70,7 +74,6 @@ namespace elearningapp.Controllers
         }
 
         // GET: Users/Edit/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -90,7 +93,6 @@ namespace elearningapp.Controllers
         // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email")] IdentityUser user)
         {
             if (id != user.Id)
@@ -126,7 +128,6 @@ namespace elearningapp.Controllers
         }
 
         // GET: Users/Delete/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -146,7 +147,6 @@ namespace elearningapp.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
