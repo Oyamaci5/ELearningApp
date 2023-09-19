@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using elearningapp.Data;
 using elearningapp.Models;
-using Microsoft.AspNetCore.Authorization;
 
-namespace elearningapp.Controllers
+namespace LearningApp.Controllers
 {
     public class CoursesController : Controller
     {
@@ -23,9 +22,8 @@ namespace elearningapp.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-              return _context.Courses != null ? 
-                          View(await _context.Courses.ToListAsync()) :
-                          Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
+            var learningAppIdentityDbContext = _context.Courses.Include(c => c.Instructor);
+            return View(await learningAppIdentityDbContext.ToListAsync());
         }
 
         // GET: Courses/Details/5
@@ -37,6 +35,7 @@ namespace elearningapp.Controllers
             }
 
             var courses = await _context.Courses
+                .Include(c => c.Instructor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (courses == null)
             {
@@ -49,6 +48,7 @@ namespace elearningapp.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
+            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace elearningapp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,InstructorId,Category,EnrollmentCount,ImageUrl,CourseDuration")] Courses courses)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,InstructorId,Category,EnrollmentCount,ImageUrl,CourseDuration")] CoursesDto courses)
         {
             if (ModelState.IsValid)
             {
@@ -65,11 +65,11 @@ namespace elearningapp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", courses.InstructorId);
             return View(courses);
         }
 
         // GET: Courses/Edit/5
-        [Authorize(Roles = "Admin, Instructor" )]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Courses == null)
@@ -82,6 +82,7 @@ namespace elearningapp.Controllers
             {
                 return NotFound();
             }
+            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", courses.InstructorId);
             return View(courses);
         }
 
@@ -117,11 +118,11 @@ namespace elearningapp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", courses.InstructorId);
             return View(courses);
         }
 
         // GET: Courses/Delete/5
-        [Authorize (Roles = "Admin")] 
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Courses == null)
@@ -130,6 +131,7 @@ namespace elearningapp.Controllers
             }
 
             var courses = await _context.Courses
+                .Include(c => c.Instructor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (courses == null)
             {
@@ -146,7 +148,7 @@ namespace elearningapp.Controllers
         {
             if (_context.Courses == null)
             {
-                return Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
+                return Problem("Entity set 'LearningAppIdentityDbContext.Courses'  is null.");
             }
             var courses = await _context.Courses.FindAsync(id);
             if (courses != null)
