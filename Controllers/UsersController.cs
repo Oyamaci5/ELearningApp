@@ -122,12 +122,24 @@ namespace elearningapp.Controllers
             }
 
             var user = await _userManager.FindByIdAsync(id);
+
+            UserWasRole UserwithRole = new UserWasRole();
+
+            UserwithRole.Username = user.UserName;
+            UserwithRole.Id = user.Id;
+
+            var roleNames = (from x in _idcontext.UserRoles
+                             join y in _idcontext.Roles on x.RoleId equals y.Id
+                             where x.UserId == user.Id
+                             select y.Name);
+            UserwithRole.RoleName = roleNames.FirstOrDefault();
+            UserwithRole.Email = user.Email;
             if (user == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(UserwithRole);
         }
 
         // POST: Users/Edit/5
@@ -201,6 +213,13 @@ namespace elearningapp.Controllers
             }
 
             return NotFound();
+        }
+
+        public async Task<IActionResult> CourseList()
+        {
+            return _context.Courses != null ?
+                          View(await _context.Courses.ToListAsync()) :
+                          Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
         }
     }
 
