@@ -44,17 +44,18 @@ namespace elearningapp.Controllers
                 UserWasRole UserwithRole = new UserWasRole();
                 UserwithRole.Roles = new List<string>();
                 UserwithRole.Username = user.UserName;
-                //UserwithRole.Roles = _userManager.GetRolesAsync(user.Id.ToString());     
-                var sqlRoles = from x in _idcontext.UserRoles
+				UserwithRole.Id = user.Id;
+				//UserwithRole.Roles = _userManager.GetRolesAsync(user.Id.ToString());     
+				var sqlRoles = (from x in _idcontext.UserRoles
                             where x.UserId == user.Id
-                            select x;
+                            select x).ToList();
                 //UserwithRole.Roles = sqlRoles.ToList<string>();
                 foreach(var role in sqlRoles)
                 {
                     
-					var roleNames = from x in _idcontext.Roles
+					var roleNames = (from x in _idcontext.Roles
 								   where x.Id == role.RoleId
-								   select x;
+								   select x).ToList();
                     foreach(var name in roleNames)
                     {
 						UserwithRole.Roles.Add(name.Name);
