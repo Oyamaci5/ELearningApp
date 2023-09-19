@@ -71,7 +71,7 @@ namespace LearningApp.Controllers
                     Category = courses.Category
                 });
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("CourseList", "Users");
             }
             ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", courses.InstructorId);
             return View(courses);
@@ -99,7 +99,7 @@ namespace LearningApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,InstructorId,Category,EnrollmentCount,ImageUrl,CourseDuration")] Courses courses)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,InstructorId,Category,EnrollmentCount,ImageUrl,CourseDuration")] CourseDTO courses)
         {
             if (id != courses.Id)
             {
@@ -110,7 +110,22 @@ namespace LearningApp.Controllers
             {
                 try
                 {
-                    _context.Update(courses);
+                    var existingCourse = await _context.Courses.FindAsync(id);
+                    if (existingCourse == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Map data from CourseDTO to existingCourse
+                    existingCourse.Title = courses.Title;
+                    existingCourse.ImageUrl = courses.ImageUrl;
+                    existingCourse.Description = courses.Description;
+                    existingCourse.CourseDuration = courses.CourseDuration;
+                    existingCourse.EnrollmentCount = courses.EnrollmentCount;
+                    existingCourse.InstructorId = courses.InstructorId;
+                    existingCourse.Category = courses.Category;
+
+                    _context.Update(existingCourse);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -124,7 +139,7 @@ namespace LearningApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("CourseList","Users");
             }
             ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", courses.InstructorId);
             return View(courses);
@@ -165,7 +180,7 @@ namespace LearningApp.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("CourseList", "Users");
         }
 
         private bool CoursesExists(int id)
