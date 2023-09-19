@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using elearningapp.Data;
 using elearningapp.Models;
+using LearningApp.Models;
 
 namespace LearningApp.Controllers
 {
@@ -49,7 +47,7 @@ namespace LearningApp.Controllers
         public IActionResult Create()
         {
             ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            return View(new CourseDTO());
         }
 
         // POST: Courses/Create
@@ -57,11 +55,21 @@ namespace LearningApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,InstructorId,Category,EnrollmentCount,ImageUrl,CourseDuration")] CoursesDto courses)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,InstructorId,Category,EnrollmentCount,ImageUrl,CourseDuration")] CourseDTO courses)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(courses);
+
+                _context.Add(new Courses
+                {
+                    Title = courses.Title,
+                    ImageUrl = courses.ImageUrl,
+                    Description = courses.Description,
+                    CourseDuration = courses.CourseDuration,
+                    EnrollmentCount = courses.EnrollmentCount,
+                    InstructorId = courses.InstructorId,
+                    Category = courses.Category
+                });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
