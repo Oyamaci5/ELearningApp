@@ -1,10 +1,10 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using elearningapp.Data;
 using elearningapp.Models;
 using LearningApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LearningApp.Controllers
 {
@@ -20,8 +20,9 @@ namespace LearningApp.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            var learningAppIdentityDbContext = _context.Courses.Include(c => c.Instructor);
-            return View(await learningAppIdentityDbContext.ToListAsync());
+            return _context.Courses != null ?
+              View(await _context.Courses.ToListAsync()) :
+              Problem("Entity set 'LearningAppIdentityDbContext.Courses'  is null.");
         }
 
         // GET: Courses/Details/5
@@ -76,7 +77,7 @@ namespace LearningApp.Controllers
             ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", courses.InstructorId);
             return View(courses);
         }
-
+        [Authorize(Roles = "Admin, Instructor")]
         // GET: Courses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
