@@ -159,5 +159,38 @@ namespace elearningapp.Controllers
         {
           return (_context.Enrollments?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Enroll(int courseId)
+        {
+
+            var course = await _context.Courses.FindAsync(courseId);
+
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            var userId = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name)?.Id;
+            if (userId == null)
+            {
+                return NotFound();
+            }
+
+
+            var isEnrolled = await _context.Enrollments
+ .AnyAsync(e => e.CourseId == courseId && e.UserId == userId);
+            var enrollment = new Enrollments
+            {
+                UserId = userId,
+                CourseId = courseId,
+                EnrollmentDate = DateTime.Now
+            };
+
+            _context.Enrollments.Add(enrollment);
+            course.EnrollmentCount++;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
