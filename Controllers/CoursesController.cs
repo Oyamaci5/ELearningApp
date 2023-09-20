@@ -47,7 +47,18 @@ namespace LearningApp.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id");
+            var instructors = (from user in _context.Users
+								join userRole in _context.UserRoles on user.Id equals userRole.UserId
+								join role in _context.Roles on userRole.RoleId equals role.Id
+								where role.Name == "Instructor"
+							   select new SelectListItem
+							   {
+								   Value = user.Id,
+								   Text = user.UserName,
+
+							   }).ToList();
+
+			ViewData["InstructorId"] = instructors;
             return View(new CourseDTO());
         }
 
@@ -188,5 +199,36 @@ namespace LearningApp.Controllers
         {
           return (_context.Courses?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-    }
+		[HttpPost]
+		public async Task<IActionResult> Enroll(int courseId)
+		{
+			var course = await _context.Courses.FindAsync(courseId);
+			var userId = _context.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).Id;
+			var courseID = _context.Courses.SingleOrDefault(c => c.Id == courseId).Id;
+
+			var isEnrolled = await _context.Enrollments
+			.AnyAsync(e => e.CourseId == courseId && e.UserId == userId);
+
+			if (isEnrolled)
+			{
+				// Handle the case where the user is already enrolled
+				// You can display a message or redirect to a specific page
+				return Ok("Already enrolled");
+			}
+
+			var enrollment = new Enrollments
+			{
+				CourseId = courseID,
+				UserId = userId,
+				EnrollmentDate = DateTime.Now
+			};
+
+
+			_context.Enrollments.Add(enrollment);
+			course.EnrollmentCount++;
+			await _context.SaveChangesAsync();
+
+			return Ok("The user has been enrolled in the course.");
+		}
+	}
 }

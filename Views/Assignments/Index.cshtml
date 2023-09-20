@@ -3,15 +3,16 @@
 @{
 	ViewData["Title"] = "Index";
 }
-<h1>Index</h1>
 <section class="section">
+
 	<div class="container">
+		<h2>Assignments</h2>
 		<div class="row">
 			<div class="col-md-6 shop-media">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="image-wrap entry">
-							<img src="upload/single_shop_01.jpg" alt="" class="img-responsive"> <!--src Course,ImageUrl-->
+							<img src="~/@Model.CourseImageUrl" alt="" class="img-responsive"> <!--src Course,ImageUrl-->
 							<div class="magnifier">
 								<a rel="prettyPhoto[inline]" href="upload/single_shop_01.jpg" title=""><i class="flaticon-add"></i></a>
 							</div>
@@ -38,16 +39,16 @@
 
 		<hr class="invis">
 
-		
-			@foreach (var item in Model.Assignments)
+		<div class="row">
+			<div class="col-md-12">
+				<div class="shop-extra">
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" href="#home">Course Content</a></li>
+					</ul>
+					@foreach (var item in Model.Assignments)
 
-			{
-			<div class="row">
-				<div class="col-md-12">
-					<div class="shop-extra">
-						<ul class="nav nav-tabs">
-							<li class="active"><a data-toggle="tab" href="#home">Course Content</a></li>
-						</ul>
+					{
+
 						<div class="accordion" id="accordionExample_@item.Id">
 							<div class="card">
 								<div class="card-header" id="heading_@item.Id">
@@ -65,11 +66,11 @@
 								</div>
 							</div>
 						</div>
-					</div><!-- end col -->
-				</div>
-				</div>
-			}
-		
+
+					}
+				</div><!-- end col -->
+			</div>
+		</div>
 		<hr class="invis">
 	</div>
 	<!-- end container -->
