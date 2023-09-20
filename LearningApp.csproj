@@ -6,7 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'elearningapp' " />
   <ItemGroup>
     <None Include="Properties\serviceDependencies.local.json.user" />
     <None Include="Views\Assignments\Create.cshtml" />
