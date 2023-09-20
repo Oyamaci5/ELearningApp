@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿<!--
+    HTML file for a web page layout.
+
+    - The file includes meta tags for character set and viewport settings.
+    - It sets the title of the page dynamically using ViewData.
+    - It includes links to various CSS files for styling.
+    - The body contains a header, main content area, and footer.
+    - The header includes a navigation bar with links.
+    - Depending on the user's role, it may display a "Dashboard" link.
+    - There's a shopping cart icon and a login partial view.
+    - The main content area is dynamically rendered using RenderBody().
+    - The footer contains copyright information and a link to the privacy policy.
+-->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,9 +25,9 @@
 </head>
 <body>
     <div id="wrapper">
-    <header class="header">
-      <div class="container">
-          <nav class="navbar navbar-default yamm">
+        <header class="header">
+            <div class="container">
+                <nav class="navbar navbar-default yamm">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span class="sr-only">Toggle navigation</span>
@@ -36,7 +49,7 @@
                                     <li>
                                         <div class="yamm-content clearfix">
                                             <div class="row-fluid">
-                                                <div class="col-md-6 col-sm-6" >
+                                                <div class="col-md-6 col-sm-6">
                                                     <h4>Course Pages</h4>
                                                     <ul>
                                                         <li><a href="#">Courses Name 01</a></li>
@@ -76,20 +89,20 @@
                             <partial name="_LoginPartial" />
                         </ul>
                     </div>
-            </nav>
-        </div>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+                </nav>
+            </div>
+        </header>
         <div class="container">
-            &copy; 2023 - elearningapp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2023 - elearningapp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
     </div>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>

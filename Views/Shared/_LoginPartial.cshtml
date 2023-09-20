@@ -1,25 +1,38 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿<!--
+    Razor view file (cshtml) that provides user authentication related functionality.
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+    - It uses the `Microsoft.AspNetCore.Identity` namespace for Identity operations.
+    - It injects `SignInManager<IdentityUser>` and `UserManager<IdentityUser>` for managing user sign-ins and user information.
+    - It checks if a user is signed in. If so, it displays a welcome message and a logout button. Otherwise, it displays
+      Register and Login links.
+    - The Register link directs to the Register page of the Identity area.
+    - The Login link directs to the Login page of the Identity area.
+    - The Manage link directs to the Manage page of the Identity area for signed-in users.
+-->
+@using Microsoft.AspNetCore.Identity
 
-@if (SignInManager.IsSignedIn(User))
+@inject SignInManager<IdentityUser>
+    SignInManager
+    @inject UserManager<IdentityUser>
+        UserManager
+
+        @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
 }

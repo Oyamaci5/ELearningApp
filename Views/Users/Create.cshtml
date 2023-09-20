@@ -1,4 +1,18 @@
-﻿
+﻿<!--
+    This Razor view is used for creating a new user in an ASP.NET Core application that uses Identity for authentication.
+    It takes an instance of IdentityUser as the model.
+
+    The view displays a form with fields for entering the user's username, email, and password.
+    Additional fields can be added as needed.
+
+    The form sends a POST request to the "Create" action of the associated controller.
+
+    Validation errors are displayed next to the respective form fields.
+
+    There is also a link at the bottom to navigate back to the user list.
+
+    The view includes the necessary scripts for client-side validation.
+-->
 @model Microsoft.AspNetCore.Identity.IdentityUser
 
 @{

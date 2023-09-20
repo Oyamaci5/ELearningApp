@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿<!--
+    HTML file for a web page layout.
+
+    - The file includes meta tags for character set, compatibility, title, and viewport settings.
+    - It links to various CSS files for styling, including Bootstrap and AdminLTE.
+    - The body contains a wrapper div that holds the entire content of the page.
+    - The header section includes the site's logo and name.
+    - There's an aside element for the main sidebar, which contains a user panel, search form, and navigation menu.
+    - The main content area is dynamically rendered using RenderBody().
+    - The footer contains copyright information and a link to the site.
+-->
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -20,7 +31,7 @@
             <a href="index2.html" class="logo">
                 <span class="logo-lg"><b>Site</b>Adi</span>
             </a>
-            
+
         </header>
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
@@ -54,19 +65,19 @@
                         <a asp-action="CourseList">
                             <i class="fa fa-th"></i> <span>Courses</span>
                         </a>
-                    </li>      
+                    </li>
             </section>
             <!-- /.sidebar -->
         </aside>
         <div>
-        @RenderBody()
+            @RenderBody()
         </div>
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-        </div>
-        <strong> <a href="#">siteadi</a>.</strong> All rights
-        reserved.
-    </footer>
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+            </div>
+            <strong> <a href="#">siteadi</a>.</strong> All rights
+            reserved.
+        </footer>
     </div>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/jquery-ui.min.js"></script>

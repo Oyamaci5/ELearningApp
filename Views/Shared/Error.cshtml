@@ -1,4 +1,12 @@
-﻿@model ErrorViewModel
+﻿<!--
+    This Razor view is used to display an error page.
+
+    - The model used is ErrorViewModel.
+    - The title of the page is dynamically set to "Error".
+    - There are headings and paragraphs to display error messages and information.
+    - If Model.ShowRequestId is true, it displays the Request ID.
+-->
+@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
 }
@@ -8,9 +16,9 @@
 
 @if (Model.ShowRequestId)
 {
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
+<p>
+    <strong>Request ID:</strong> <code>@Model.RequestId</code>
+</p>
 }
 
 <h3>Development Mode</h3>
