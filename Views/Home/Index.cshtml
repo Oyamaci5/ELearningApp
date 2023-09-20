@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<elearningapp.Models.Courses>
+
+@{
+    Layout = "_LayoutIndex";
+}
 <style>
     .caro-item {
         height: 400px; /* Set a fixed height for each item */
@@ -16,8 +20,9 @@
         }
 
 </style>
+<div class="overlay"></div>
 <section id="home" class="video-section js-height-full">
-    <div class="overlay"></div>
+
     <div class="home-text-wrapper relative container">
         <div class="home-message">
             <p>Learning Management System</p>

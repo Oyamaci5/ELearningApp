@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using elearningapp.Data;
 using LearningApp.Controllers;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using LearningApp.Models;
 
 namespace elearningapp.Controllers
 {
@@ -214,8 +216,34 @@ namespace elearningapp.Controllers
         [Authorize(Roles = "Admin,Instructor")]
         public async Task<IActionResult> CourseList()
         {
-            return _idcontext.Courses != null ?
-                          View(await _idcontext.Courses.ToListAsync()) :
+
+            List<CourseDTO> courses = new List<CourseDTO>();
+            foreach(var item in _idcontext.Courses)
+            {
+                    var kapali = (from user in _idcontext.Users
+                                  where user.Id == item.InstructorId
+                                  select user.UserName
+                        ).ToList();
+
+                    var courseDTO = new CourseDTO
+                    {
+                        Id = item.Id,
+                        // Populate other properties as needed
+                        InstructorName = kapali.FirstOrDefault(),
+                        Title = item.Title,
+                        Description = item.Description,
+                        Category = item.Category,
+                        InstructorId = item.InstructorId,
+                        EnrollmentCount = item.EnrollmentCount,
+                        ImageUrl = item.ImageUrl,
+
+                    };
+                    courses.Add(courseDTO);
+                
+               
+            }
+			return _idcontext.Courses != null ?
+                          View(courses) :
                           Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
         }
     }

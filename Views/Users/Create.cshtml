@@ -1,51 +1,50 @@
-﻿
-@model Microsoft.AspNetCore.Identity.IdentityUser
+﻿@model Microsoft.AspNetCore.Identity.IdentityUser
 
 @{
-    ViewData["Title"] = "Create User";
+	ViewData["Title"] = "Create User";
 }
+<div class="container">
+	<h1>Create User</h1>
+	<hr />
 
-<h1>Create User</h1>
-<hr />
+	<div class="row">
+		<div class="col-md-4">
+			<form asp-action="Create">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<div class="form-group">
+					<label asp-for="UserName" class="control-label">Username</label>
+					<input asp-for="UserName" class="form-control" />
+					<span asp-validation-for="UserName" class="text-danger"></span>
+				</div>
 
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label">Username</label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
+				<div class="form-group">
+					<label asp-for="Email" class="control-label">Email</label>
+					<input asp-for="Email" class="form-control" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
 
-            <div class="form-group">
-                <label asp-for="Email" class="control-label">Email</label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+				<div class="form-group">
+					<label asp-for="PasswordHash" class="control-label">Password</label>
+					<input type="password" asp-for="PasswordHash" class="form-control" />
+					<span asp-validation-for="PasswordHash" class="text-danger"></span>
+				</div>
 
-            <div class="form-group">
-                <label asp-for="PasswordHash" class="control-label">Password</label>
-                <input type="password" asp-for="PasswordHash" class="form-control" />
-                <span asp-validation-for="PasswordHash" class="text-danger"></span>
-            </div>
+				<!-- Add more fields as needed -->
 
-            <!-- Add more fields as needed -->
+				<div class="form-group">
+					<input type="submit" value="Create" class="btn btn-primary" />
+				</div>
+			</form>
+		</div>
+	</div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+	<div>
+		<a asp-action="Index">Back to User List</a>
+	</div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to User List</a>
-</div>
-
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 }
