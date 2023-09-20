@@ -1,4 +1,4 @@
-﻿@model IEnumerable<elearningapp.Models.Assignments>
+﻿@model elearningapp.Models.CourseDetailsViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -19,13 +19,12 @@
                             </div><!-- end image-wrap -->
                         </div>
                     </div><!-- end row -->
-
                     <hr class="invis">
                 </div><!-- end col -->
 
                 <div class="col-md-6">
                     <div class="shop-desc">
-                        <h3>Course title geliyor gelmekte olan</h3> <!--Course,title-->
+                        <h3>@Model.CourseTitle</h3> <!--Course,title-->
                         <p>Course description gelecek</p> <!--Course,description-->
                         <div class="shop-meta">
                             <a href="#" class="btn btn-primary">Enroll</a>
@@ -45,27 +44,31 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home">Course Content </a></li>
                         </ul>
-                        <!--<div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Burası (Assignments,title) canı gelmek isterse <!--Assignments,titlelaar
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <strong>Assignments,decriptions gele de bilir gelmeye de bilir</strong> <!--assignments,decriptions
+
+                        @** @foreach (var item in Model)
+                                {
+                                    <div class="accordion" id="accordionExample_@item.Id">
+                                        <div class="card">
+                                            <div class="card-header" id="heading_@item.Id">
+                                                <h2 class="mb-0">
+                                                    <button class="btn btn-link btn-primary btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse_@item.Id" aria-expanded="true" aria-controls="collapse_@item.Id">
+                                                        @Html.DisplayFor(modelItem => item.Title)
+                                                    </button>
+                                                </h2>
+                                            </div>
+
+                                            <div id="collapse_@item.Id" class="collapse" aria-labelledby="heading_@item.Id" data-parent="#accordionExample_@item.Id">
+                                                <div class="card-body">
+                                                    @Html.DisplayFor(modelItem => item.Description)
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                }
+                                *@
                                 </div>
                             </div>
                         </div>
-                        -->
-                        <div class="tab-content">
-                        </div><!-- end shop-extra -->
-                    </div><!-- end col -->
-                </div><!-- end row -->
-
-                <hr class="invis">
-            </div><!-- end boxed -->
-        </div><!-- end container -->
-</section>
+        </div>
+        </div>
+        </section>
