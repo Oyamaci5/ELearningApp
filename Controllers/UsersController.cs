@@ -207,7 +207,7 @@ namespace elearningapp.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("", "Users");
                 }
             }
 
