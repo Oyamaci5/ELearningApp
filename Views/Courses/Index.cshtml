@@ -1,10 +1,25 @@
-﻿@model IEnumerable<elearningapp.Models.Courses>
+@model elearningapp.Models.CourseDetailsViewModel
 
-@{
-    ViewData["Title"] = "Index";
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <style>
+        .course-box {
+            margin-bottom: 20px; 
+        }
 
-<h2>Index</h2>
+            .course-box .image-wrap {
+                text-align: center; 
+            }
+
+        .course-details h4 {
+            margin-top: 10px; 
+        }
 
 <p>
     <a asp-action="Create">Create New</a>
