@@ -1,4 +1,22 @@
-﻿<section id="home" class="video-section js-height-full">
+﻿@model IEnumerable<elearningapp.Models.Courses>
+<style>
+    .caro-item {
+        height: 400px; /* Set a fixed height for each item */
+        margin-right: 10px; /* Adjust margin as needed */
+    }
+
+        /* Optional: To center the content vertically and horizontally within each item */
+        .caro-item .course-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+        }
+
+</style>
+<section id="home" class="video-section js-height-full">
     <div class="overlay"></div>
     <div class="home-text-wrapper relative container">
         <div class="home-message">
@@ -17,179 +35,46 @@
 </section>
 <section class="section gb">
     <div class="container">
+
         <div class="section-title text-center">
-            <h3>Recent Courses</h3>
-            <p>Maecenas sit amet tristique turpis. Quisque porttitor eros quis leo pulvinar, at hendrerit sapien iaculis. Donec consectetur accumsan arcu, sit amet fringilla ex ultricies.</p>
+            <h3>Courses</h3>
         </div><!-- end title -->
-
+        <div class="section-button text-end" style="margin-bottom:10px;">
+            <a class="btn btn-primary" asp-action="" asp-controller="Courses" >View All Courses</a>
+        </div>
         <div id="owl-01" class="owl-carousel owl-theme owl-theme-01">
+            @foreach(var item in Model){
             <div class="caro-item">
                 <div class="course-box">
                     <div class="image-wrap entry">
-                        <img src="upload/course_01.jpg" alt="" class="img-responsive">
+                        <img src="@item.ImageUrl" alt="" class="img-responsive">
                         <div class="magnifier">
                             <a href="#" title=""><i class="flaticon-add"></i></a>
                         </div>
-                    </div><!-- end image-wrap -->
+                    </div>
                     <div class="course-details">
                         <h4>
-                            <small>Javascript</small>
-                            <a href="#" title="">Modern JavaScript Linting With ESLint</a>
+                            <small>@item.Category</small>
+                            <a href="#" title="">@item.Title</a>
                         </h4>
-                        <p>Fusce interdum, elit sit amet vehicula malesuada, eros libero elementum orci.</p>
-                    </div><!-- end details -->
+                        <p>@item.Description</p>
+                    </div>
                     <div class="course-footer clearfix">
                         <div class="pull-left">
                             <ul class="list-inline">
-                                <li><a href="#"><i class="fa fa-user"></i> 21</a></li>
-                                <li><a href="#"><i class="fa fa-clock-o"></i> 15 Min.</a></li>
+                                <li><a href="#"><i class="fa fa-user"></i> @item.EnrollmentCount</a></li>
+                                <li><a href="#"><i class="fa fa-clock-o"></i>@item.CourseDuration</a></li>
                             </ul>
-                        </div><!-- end left -->
-
-                        <div class="pull-right">
-                            <ul class="list-inline">
-                                <li><a href="#">$22.00</a></li>
-                            </ul>
-                        </div><!-- end left -->
-                    </div><!-- end footer -->
-                </div><!-- end box -->
-            </div><!-- end col -->
-
-            <div class="caro-item">
-                <div class="course-box">
-                    <div class="image-wrap entry">
-                        <img src="upload/course_02.jpg" alt="" class="img-responsive">
-                        <div class="magnifier">
-                            <a href="#" title=""><i class="flaticon-add"></i></a>
                         </div>
-                    </div><!-- end image-wrap -->
-                    <div class="course-details">
-                        <h4>
-                            <small>Design</small>
-                            <a href="#" title="">Designing Game UI Assets in Adobe Illustrator</a>
-                        </h4>
-                        <p>Curabitur condimentum velit non odio mattis tristique. Nam vitae orci aliquam. </p>
-                    </div><!-- end details -->
-                    <div class="course-footer clearfix">
-                        <div class="pull-left">
-                            <ul class="list-inline">
-                                <li><a href="#"><i class="fa fa-user"></i> 41</a></li>
-                                <li><a href="#"><i class="fa fa-clock-o"></i> 33 Min.</a></li>
-                            </ul>
-                        </div><!-- end left -->
-
-                        <div class="pull-right">
-                            <ul class="list-inline">
-                                <li><a href="#">$55.00</a></li>
-                            </ul>
-                        </div><!-- end left -->
-                    </div><!-- end footer -->
-                </div><!-- end box -->
-            </div><!-- end col -->
-
-            <div class="caro-item">
-                <div class="course-box">
-                    <div class="image-wrap entry">
-                        <img src="upload/course_03.jpg" alt="" class="img-responsive">
-                        <div class="magnifier">
-                            <a href="#" title=""><i class="flaticon-add"></i></a>
-                        </div>
-                    </div><!-- end image-wrap -->
-                    <div class="course-details">
-                        <h4>
-                            <small>PHP Coding</small>
-                            <a href="#" title="">How to Become a Web Developer: Learn PHP</a>
-                        </h4>
-                        <p>Donec auctor nec nibh sit amet pulvinar. Mauris nulla elit, lacinia ac facilisis mattis.</p>
-                    </div><!-- end details -->
-                    <div class="course-footer clearfix">
-                        <div class="pull-left">
-                            <ul class="list-inline">
-                                <li><a href="#"><i class="fa fa-user"></i> 35</a></li>
-                                <li><a href="#"><i class="fa fa-clock-o"></i> 1 Hrs.</a></li>
-                            </ul>
-                        </div><!-- end left -->
-
-                        <div class="pull-right">
-                            <ul class="list-inline">
-                                <li><a href="#">$51.00</a></li>
-                            </ul>
-                        </div><!-- end left -->
-                    </div><!-- end footer -->
-                </div><!-- end box -->
-            </div><!-- end col -->
-
-            <div class="caro-item">
-                <div class="course-box">
-                    <div class="image-wrap entry">
-                        <img src="upload/course_04.jpg" alt="" class="img-responsive">
-                        <div class="magnifier">
-                            <a href="#" title=""><i class="flaticon-add"></i></a>
-                        </div>
-                    </div><!-- end image-wrap -->
-                    <div class="course-details">
-                        <h4>
-                            <small>PHP Coding</small>
-                            <a href="#" title="">How to Build a Custom Theme for Drupal 8</a>
-                        </h4>
-                        <p>Pellentesque ut enim dictum, interdum lorem eget, vulputate eros sed felis euismod.</p>
-                    </div><!-- end details -->
-                    <div class="course-footer clearfix">
-                        <div class="pull-left">
-                            <ul class="list-inline">
-                                <li><a href="#"><i class="fa fa-user"></i> 35</a></li>
-                                <li><a href="#"><i class="fa fa-clock-o"></i> 45 Min.</a></li>
-                            </ul>
-                        </div><!-- end left -->
-
-                        <div class="pull-right">
-                            <ul class="list-inline">
-                                <li><a href="#">$51.00</a></li>
-                            </ul>
-                        </div><!-- end left -->
-                    </div><!-- end footer -->
-                </div><!-- end box -->
-            </div><!-- end col -->
-
-            <div class="caro-item">
-                <div class="course-box">
-                    <div class="image-wrap entry">
-                        <img src="upload/course_01.jpg" alt="" class="img-responsive">
-                        <div class="magnifier">
-                            <a href="#" title=""><i class="flaticon-add"></i></a>
-                        </div>
-                    </div><!-- end image-wrap -->
-                    <div class="course-details">
-                        <h4>
-                            <small>Javascript</small>
-                            <a href="#" title="">Modern JavaScript Linting With ESLint</a>
-                        </h4>
-                        <p>Fusce interdum, elit sit amet vehicula malesuada, eros libero elementum orci.</p>
-                    </div><!-- end details -->
-                    <div class="course-footer clearfix">
-                        <div class="pull-left">
-                            <ul class="list-inline">
-                                <li><a href="#"><i class="fa fa-user"></i> 21</a></li>
-                                <li><a href="#"><i class="fa fa-clock-o"></i> 15 Min.</a></li>
-                            </ul>
-                        </div><!-- end left -->
-
-                        <div class="pull-right">
-                            <ul class="list-inline">
-                                <li><a href="#">$22.00</a></li>
-                            </ul>
-                        </div><!-- end left -->
-                    </div><!-- end footer -->
-                </div><!-- end box -->
-            </div><!-- end col -->
-        </div><!-- end row -->
-
+                    </div>
+                </div>
+            </div>
+            }
         <hr class="invis">
 
-        <div class="section-button text-center">
-            <a href="#" class="btn btn-primary">View All Courses</a>
-        </div>
+      
     </div><!-- end container -->
+
 </section>
 
 <section class="section db">

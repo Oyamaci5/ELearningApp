@@ -31,11 +31,12 @@ namespace elearningapp.Controllers
             concon.CourseImageUrl = con.ImageUrl;
             concon.CourseDescription = con.Description;
             concon.CourseCategory = con.Category;
-            List<Assignments> Assignments = new List<Assignments>();
+            List<Assignments> assignments = new List<Assignments>();
             var assign = (from x in _context.Assignments
                           where x.CourseId == id
                           select x).ToList();
-            Assignments = assign;
+			assignments = assign;
+            concon.Assignments = assignments;
             return View(concon);
            
         }

@@ -28,7 +28,7 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p></p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -46,9 +46,11 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
+                         @if (User.IsInRole("Admin")){
                         <a asp-action="">
                             <i class="fa fa-th"></i> <span>Users</span>
                         </a>
+                         }
                     </li>
                     <li>
                         <a asp-action="CourseList">
