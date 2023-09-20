@@ -92,17 +92,28 @@ namespace LearningApp.Controllers
         // GET: Courses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var instructors = (from user in _context.Users
+                               join userRole in _context.UserRoles on user.Id equals userRole.UserId
+                               join role in _context.Roles on userRole.RoleId equals role.Id
+                               where role.Name == "Instructor"
+                               select new SelectListItem
+                               {
+                                   Value = user.Id,
+                                   Text = user.UserName,
+
+                               }).ToList();
+
             if (id == null || _context.Courses == null)
             {
                 return NotFound();
             }
 
-            var courses = await _context.Courses.FindAsync(id);
+			var courses = await _context.Courses.FindAsync(id);
             if (courses == null)
             {
                 return NotFound();
             }
-            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "Id", courses.InstructorId);
+            ViewData["InstructorData"] = instructors;
             return View(courses);
         }
 
