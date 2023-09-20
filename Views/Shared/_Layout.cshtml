@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="~/css/style.css">
 </head>
 <body>
-    <div id="wrapper">
     <header class="header">
       <div class="container">
           <nav class="navbar navbar-default yamm">
@@ -30,45 +29,9 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li><a asp-controller="" asp-action="">Home</a></li>
-                            <li class="dropdown yamm-fw yamm-half">
-                                <a asp-controller="Courses" asp-action="" class="dropdown-toggle active">Courses</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <div class="yamm-content clearfix">
-                                            <div class="row-fluid">
-                                                <div class="col-md-6 col-sm-6" >
-                                                    <h4>Course Pages</h4>
-                                                    <ul>
-                                                        <li><a href="#">Courses Name 01</a></li>
-                                                        <li><a href="#">Courses Name 02</a></li>
-                                                        <li><a href="#">Courses Name 03</a></li>
-                                                        <li><a href="#">Courses Name 04</a></li>
-                                                        <li><a href="#">Courses Name 05</a></li>
-                                                        <li><a href="#">Courses Name 06</a></li>
-                                                        <li><a href="#">Courses Name 07</a></li>
-                                                        <li><a href="#">Courses Name 08</a></li>
-                                                        <li><a href="#">Courses Name 09</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <div class="menu-widget text-center">
-                                                        <div class="image-wrap entry">
-                                                            <img src="upload/course_01.jpg" alt="" class="img-responsive">
-                                                            <div class="magnifier">
-                                                                <a href="#" title=""><i class="flaticon-add"></i></a>
-                                                            </div>
-                                                        </div><!-- end image-wrap -->
-                                                        <h5><a href="#">Learning Bootstrap Framework</a></h5>
-                                                        <small>$22.00</small>
-                                                        <a href="#" class="menu-button">View Course</a>
-                                                    </div><!-- end widget -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                            @if (User.IsInRole("Admin")){
+                            <li><a asp-controller="Courses" asp-action="">Courses</a></li>
+                            
+                            @if (User.IsInRole("Admin") || User.IsInRole("Instructor")){
                             <li><a asp-controller="Users" asp-action="Dashboard">Dashboard</a></li>
                             }
                             <partial name="_LoginPartial" />
@@ -88,7 +51,6 @@
             &copy; 2023 - elearningapp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    </div>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/carousel.js"></script>

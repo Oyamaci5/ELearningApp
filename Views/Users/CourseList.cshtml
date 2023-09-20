@@ -40,7 +40,7 @@
 										@Html.DisplayNameFor(model => model.Category)
 									</th>
 									<th>
-										@Html.DisplayNameFor(model => model.EnrollmentCount)
+										@Html.DisplayNameFor(model => model.CourseDuration)
 									</th>
 									<th>
 										@Html.DisplayNameFor(model => model.ImageUrl)
@@ -65,7 +65,7 @@
 											@Html.DisplayFor(modelItem => item.Category)
 										</td>
 										<td>
-											@Html.DisplayFor(modelItem => item.EnrollmentCount)
+											@Html.DisplayFor(modelItem => item.CourseDuration)
 										</td>
 										<td>
 											@Html.DisplayFor(modelItem => item.ImageUrl)
@@ -76,7 +76,9 @@
 												<a asp-action="Edit" asp-controller="Courses" asp-route-id="@item.Id">Edit |</a>
 											}
 
-											<a asp-action="Details" asp-controller="Courses"  asp-route-id="@item.Id">Details</a> |
+											<a asp-action="Details" asp-controller="Courses"  asp-route-id="@item.Id">Details |</a>
+
+											<a asp-action="List" asp-controller="Assignments" asp-route-id="@item.Id">Assignment Lists |</a>
 											@if (User.IsInRole("Admin"))
 											{
 												<a asp-action="Delete" asp-controller="Courses" asp-route-id="@item.Id">Delete</a>

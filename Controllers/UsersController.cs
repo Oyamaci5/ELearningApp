@@ -9,7 +9,7 @@ using LearningApp.Controllers;
 
 namespace elearningapp.Controllers
 {
-    [Authorize (Roles = "Admin")]
+    
     public class UsersController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -21,11 +21,12 @@ namespace elearningapp.Controllers
 			_userManager = userManager;
 		}
         //GET : Dashboard
+        [Authorize(Roles = "Admin,Instructor")]
         public async Task<IActionResult> Dashboard()
         {
 			return View();
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Users
         public async Task<IActionResult> Index()
         {
@@ -63,12 +64,12 @@ namespace elearningapp.Controllers
             return View(list);
 
         }
-        
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -91,7 +92,7 @@ namespace elearningapp.Controllers
 
             return View(user);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Users/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -108,7 +109,7 @@ namespace elearningapp.Controllers
 
             return View(user);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -137,7 +138,7 @@ namespace elearningapp.Controllers
 
             return View(UserwithRole);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -174,7 +175,7 @@ namespace elearningapp.Controllers
 
             return View(user);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
@@ -191,7 +192,7 @@ namespace elearningapp.Controllers
 
             return View(user);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -210,7 +211,7 @@ namespace elearningapp.Controllers
 
             return NotFound();
         }
-
+        [Authorize(Roles = "Admin,Instructor")]
         public async Task<IActionResult> CourseList()
         {
             return _idcontext.Courses != null ?
