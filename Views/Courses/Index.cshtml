@@ -1,4 +1,5 @@
-﻿@model IEnumerable<elearningapp.Models.Courses>
+@model elearningapp.Models.CourseDetailsViewModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,74 +21,50 @@
             margin-top: 10px; 
         }
 
-        .enroll-button {
-            margin-top: 10px; /* Buton ile diğer içerik arasındaki boşluğu artırır */
-            text-align: center; /* Butonu ortalar */
-        }
-
-            .enroll-button button {
-                display: block; /* Butonun genişliğini ayarlar */
-                margin: 0 auto; /* Butonu yatayda ortalar */
-            }
-    </style>
-    <script>$(document).ready(function () {
-            var owl = $('.owl-carousel');
-            owl.owlCarousel({
-                items: 3,
-                loop: true,
-                margin: 10,
-                autoplay: true,
-                autoplayTimeout: 2000,
-                autoplayHoverPause: true
-            });
-        });</script>
-</head>
-<body>
-    <div class="container">
-        <h1>Courses</h1>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="owl-carousel owl-theme">
-                    @foreach (var item in Model)
-                    {
-                        <div class="col-md-12 course-box shop-wrap">
-                            <div class="image-wrap entry">
-                                <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" width="400" height="400">
-                                <div class="magnifier">
-                                    <a href="shop-single.html" title=""><i class="flaticon-add"></i></a>
-                                </div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="container">
+    <h1>Courses</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="owl-carousel owl-theme">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-12 course-box shop-wrap">
+                        <div class="image-wrap entry">
+                            <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" width="400" height="400">
+                            <div class="magnifier">
+                                <a href="shop-single.html" title=""><i class="flaticon-add"></i></a>
                             </div>
-                            <!-- end image-wrap -->
-                            <!--details -->
-                            <div class="course-details shop-box text-center">
-                                <h4>
-                                    <small style="color: black;">@Html.DisplayFor(modelItem => item.Category)</small>
-                                    <a asp-controller="Assignments" asp-action="" asp-route-id="@item.Id" title="Details" style="color: darkblue;">
-                                        @Html.DisplayFor(modelItem => item.Title)
-                                    </a>
-                                </h4>
-                                <p><small style="color: black;">@Html.DisplayFor(modelItem => item.Description)</small></p>
-                                <!-- end details -->
-                                <div class="pull-left">
-                                    <ul class="list-inline">
-                                        <li><a href="#"><i class="fa fa-user"></i> @Html.DisplayFor(modelItem => item.EnrollmentCount)</a></li>
-                                    </ul>
-                                </div>
-                                <div class="enroll-button">
-                                    <ul>
-                                        <button class="btn btn-primary btn-sm">Enroll</button>
-                                    </ul>
-                                </div>
+                        </div>
+                        <!-- end image-wrap -->
+                        <!--details -->
+                        <div class="course-details shop-box text-center">
+                            <h4>
+                                <small style="color: black;">@Html.DisplayFor(modelItem => item.Category)</small>
+                                <a asp-controller="Assignments" asp-action="" title="Details" style="color: darkblue;">
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </a>
+                            </h4>
+                            <p><small style="color: black;">@Html.DisplayFor(modelItem => item.Description)</small></p>
+                            <!-- end details -->
+                            <div class="pull-left">
+                                <ul class="list-inline">
+                                    <li><a href="#"><i class="fa fa-user"></i> @Html.DisplayFor(modelItem => item.EnrollmentCount)</a></li>
+                                </ul>
                             </div>
-                        </div><!-- end course-box -->
-                    }
-                </div><!-- end owl-carousel -->
-            </div><!-- end col-md-12 -->
-        </div><!-- end row -->
-    </div><!-- end container -->
-    <br>
-    <br>
-    <br>
-</body>
-</html>
+                            <div class="enroll-button">
+                                <ul>
+                                    <button class="btn btn-primary btn-sm">Enroll</button>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- end course-box -->
+                }
+            </div><!-- end owl-carousel -->
+        </div><!-- end col-md-12 -->
+    </div><!-- end row -->
+</div><!-- end container -->
