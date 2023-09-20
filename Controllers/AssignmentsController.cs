@@ -20,26 +20,11 @@ namespace elearningapp.Controllers
         }
 
         // GET: Assignments
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index()
         {
-            var con = (from x in _context.Courses
-                            where x.Id == id
-                            select x).FirstOrDefault();
-            CourseDetailsViewModel concon = new CourseDetailsViewModel();
-
-            concon.CourseTitle = con.Title;
-            concon.CourseImageUrl = con.ImageUrl;
-            concon.CourseDescription = con.Description;
-            concon.CourseCategory = con.Category;
-            List<Assignments> Assignments = new List<Assignments>() ;
-            var assign = (from x in _context.Assignments
-                       where x.CourseId == id
-                       select x).ToList();
-            Assignments = assign;
-            return View(concon);
-            /*return _context.Assignments != null ? 
+              return _context.Assignments != null ? 
                           View(await _context.Assignments.ToListAsync()) :
-                          Problem("Entity set 'LearningAppDbContext.Assignments'  is null.");*/
+                          Problem("Entity set 'LearningAppDbContext.Assignments'  is null.");
         }
 
         // GET: Assignments/Details/5
