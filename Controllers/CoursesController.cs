@@ -13,9 +13,9 @@ namespace elearningapp.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly LearningAppDbContext _context;
+        private readonly LearningAppIdentityDbContext _context;
 
-        public CoursesController(LearningAppDbContext context)
+        public CoursesController(LearningAppIdentityDbContext context)
         {
             _context = context;
         }
@@ -25,7 +25,7 @@ namespace elearningapp.Controllers
         {
               return _context.Courses != null ? 
                           View(await _context.Courses.ToListAsync()) :
-                          Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
+                          Problem("Entity set 'LearningAppIdentityDbContext.Courses'  is null.");
         }
 
         // GET: Courses/Details/5

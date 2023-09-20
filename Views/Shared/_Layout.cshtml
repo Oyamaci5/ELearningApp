@@ -29,11 +29,12 @@
 
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a asp-controller="Home" asp-action="">Home</a></li>
+
+                            <li><a asp-controller="" asp-action="">Home</a></li>
+
                             <li class="dropdown yamm-fw yamm-half">
                                 <a asp-controller="Courses" asp-action="" class="dropdown-toggle active">Courses</a>
                             </li>
-                            <li><a href="page-contact.html">Contact</a></li>
                             @if (User.IsInRole("Admin")){
                             <li><a asp-controller="Users" asp-action="Dashboard">Dashboard</a></li>
                             }

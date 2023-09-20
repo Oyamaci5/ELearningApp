@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace elearningapp.Models
+﻿namespace LearningApp.Models
 {
-    public class Courses
+    public class CourseDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -12,10 +10,5 @@ namespace elearningapp.Models
         public int EnrollmentCount { get; set; }
         public string? ImageUrl { get; set; }
         public int CourseDuration { get; set; }
-
-        public IdentityUser Instructor { get; set; }
-
-		public ICollection<Assignments> Assignments { get; set; } = new List<Assignments>();
-
-	}
+    }
 }

@@ -62,7 +62,7 @@
                             <div class="course-details shop-box text-center">
                                 <h4>
                                     <small style="color: black;">@Html.DisplayFor(modelItem => item.Category)</small>
-                                    <a asp-controller="Assignments" asp-action="" title="Details" style="color: darkblue;">
+                                    <a asp-controller="Assignments" asp-action="" asp-route-id="@item.Id" title="Details" style="color: darkblue;">
                                         @Html.DisplayFor(modelItem => item.Title)
                                     </a>
                                 </h4>
@@ -90,3 +90,4 @@
     <br>
 </body>
 </html>
+
