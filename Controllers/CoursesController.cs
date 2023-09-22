@@ -5,6 +5,10 @@ using elearningapp.Data;
 using elearningapp.Models;
 using LearningApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using PagedList;
+using PagedList.Mvc;
+using NuGet.Protocol.Core.Types;
+using System.Drawing.Printing;
 
 namespace LearningApp.Controllers
 {
@@ -17,11 +21,12 @@ namespace LearningApp.Controllers
             _context = context;
         }
 
-        // GET: Courses
-        public async Task<IActionResult> Index()
-        {
-            return _context.Courses != null ?
-              View(await _context.Courses.ToListAsync()) :
+		// GET: Courses
+		public async Task<IActionResult> Index(int p = 1)
+		{
+		    var headings = _context.Courses.ToPagedList(p, 6);
+			return _context.Courses != null ?
+			View(headings) :
               Problem("Entity set 'LearningAppIdentityDbContext.Courses'  is null.");
         }
 
