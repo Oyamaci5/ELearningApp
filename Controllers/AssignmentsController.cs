@@ -31,6 +31,10 @@ namespace elearningapp.Controllers
             concon.CourseImageUrl = con.ImageUrl;
             concon.CourseDescription = con.Description;
             concon.CourseCategory = con.Category;
+            concon.CourseEnrollmentCount = con.EnrollmentCount;
+            concon.CourseCDuration = con.CourseDuration;
+            concon.CourseId = con.Id;
+
             List<Assignments> assignments = new List<Assignments>();
             var assign = (from x in _context.Assignments
                           where x.CourseId == id
