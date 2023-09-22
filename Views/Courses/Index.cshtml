@@ -54,10 +54,13 @@
 								<h3><a asp-action="" asp-controller="Assignments" asp-route-id="@item.Id">@item.Title</a></h3>
 								<p>@item.Description.</p>
 								<div class="trainer d-flex justify-content-between align-items-center">
-									<div class="trainer-profile d-flex align-items-center">
-										<img src="assets/img/trainers/trainer-1.jpg" class="img-fluid" alt="">
-										<span>@item.InstructorId</span>
-									</div>
+									@if (User.IsInRole("Student"))
+									{
+										<form method="post" asp-action="Enroll">
+											<input type="hidden" name="courseId" value="@item.Id" />
+											<button type="submit" class="btn btn-primary btn-sm btn-rounded">Enroll</button>
+										</form>
+									}
 									<div class="trainer-rank d-flex align-items-center">
 										<i class="bi bi-person">@item.EnrollmentCount</i>
 										&nbsp;&nbsp;
