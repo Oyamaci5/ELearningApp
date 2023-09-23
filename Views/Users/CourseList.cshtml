@@ -18,13 +18,13 @@
 			<div class="col-xs-12">
 				<div class="box">
 					<div class="box-header">
-						<a class="" asp-action="Create" asp-controller="Courses">Create New Course</a>
+						<a class="btn btn-success btn-sm mt-2" asp-action="Create" asp-controller="Courses">Create New Course</a>
 					</div>
 
 
 					<!-- /.box-header -->
 					<div class="box-body">
-						<table id="example1" class="table table-bordered table-stripe">
+						<table id="CourseTable" class="table table-bordered table-stripe">
 							<thead>
 								<tr>
 									<th>
@@ -41,9 +41,6 @@
 									</th>
 									<th>
 										@Html.DisplayNameFor(model => model.CourseDuration)
-									</th>
-									<th>
-										@Html.DisplayNameFor(model => model.ImageUrl)
 									</th>
 									<th></th>
 								</tr>
@@ -68,20 +65,17 @@
 											@Html.DisplayFor(modelItem => item.CourseDuration)
 										</td>
 										<td>
-											@Html.DisplayFor(modelItem => item.ImageUrl)
-										</td>
-										<td>
 											@if (User.IsInRole("Admin") || User.IsInRole("Instructor"))
 											{
-												<a asp-action="Edit" asp-controller="Courses" asp-route-id="@item.Id">Edit |</a>
+												<a class="btn btn-primary btn-sm"  asp-action="Edit" asp-controller="Courses" asp-route-id="@item.Id">Edit </a>
 											}
 
-											<a asp-action="Details" asp-controller="Courses"  asp-route-id="@item.Id">Details |</a>
+											<a class="btn btn-info btn-sm" asp-action="Details" asp-controller="Courses"  asp-route-id="@item.Id">Details </a>
 
-											<a asp-action="Create" asp-controller="Assignments" asp-route-id="@item.Id">Assignment Lists |</a>
+											<a class="btn btn-success btn-sm" asp-action="AssignmentList" asp-controller="Users" asp-route-CourseId="@item.Id">Assignment Lists</a>
 											@if (User.IsInRole("Admin"))
 											{
-												<a asp-action="Delete" asp-controller="Courses" asp-route-id="@item.Id">Delete</a>
+												<a class="btn btn-danger btn-sm" asp-action="Delete" asp-controller="Courses" asp-route-id="@item.Id">Delete</a>
 											}
 										</td>
 									</tr>

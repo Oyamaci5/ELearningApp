@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using elearningapp.Data;
 using elearningapp.Models;
+using System.Web;
+using LearningApp.Models;
 
 namespace elearningapp.Controllers
 {
@@ -20,7 +18,7 @@ namespace elearningapp.Controllers
         }
 
         // GET: Assignments
-        public async Task<IActionResult> Index(int id)
+        public IActionResult Index(int id)
         {
             var con = (from x in _context.Courses
                      where x.Id == id
@@ -44,28 +42,15 @@ namespace elearningapp.Controllers
             return View(concon);
            
         }
-        // GET: Assignments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Assignments == null)
-            {
-                return NotFound();
-            }
-
-            var assignments = await _context.Assignments
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (assignments == null)
-            {
-                return NotFound();
-            }
-
-            return View(assignments);
-        }
-
         // GET: Assignments/Create
-        public IActionResult Create()
+        public IActionResult Create([FromQuery] int CourseId)
         {
-            return View();
+            ViewData["CourseId"] = CourseId;
+            ViewData["CourseName"] = (from x in _context.Courses
+                                     where x.Id == CourseId
+                                     select x.Title).FirstOrDefault();
+
+			return View();
         }
 
         // POST: Assignments/Create
@@ -73,20 +58,31 @@ namespace elearningapp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CourseId,Title,Description,DueDate")] Assignments assignments)
+        public async Task<IActionResult> Create([Bind("CourseId,Title,Description,DueDate")] Assignments assignments)
         {
+            /*var course_id = (from x in _context.Courses
+                            where ViewData["CourseName"] == x.Title
+                            select x.Id).FirstOrDefault();*/
             if (ModelState.IsValid)
             {
                 _context.Add(assignments);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+				return RedirectToAction("AssignmentList", "Users", new { assignments.CourseId });
+			}
             return View(assignments);
         }
 
         // GET: Assignments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var course_variables = (from course in _context.Courses
+                                        join assignment in _context.Assignments on course.Id equals assignment.CourseId
+                                        where assignment.Id == id
+                                        select course).FirstOrDefault();
+
+            ViewData["CourseId"] = course_variables.Id;
+            ViewData["CourseName"] = course_variables.Title;
+
             if (id == null || _context.Assignments == null)
             {
                 return NotFound();
@@ -107,6 +103,7 @@ namespace elearningapp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CourseId,Title,Description,DueDate")] Assignments assignments)
         {
+            var course_id = assignments.CourseId;
             if (id != assignments.Id)
             {
                 return NotFound();
@@ -130,9 +127,9 @@ namespace elearningapp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AssignmentList","Users", new { CourseId = course_id });
             }
-            return View(assignments);
+            return RedirectToAction("AssignmentList", "Users", assignments.CourseId);
         }
 
         // GET: Assignments/Delete/5
@@ -163,18 +160,41 @@ namespace elearningapp.Controllers
                 return Problem("Entity set 'LearningAppDbContext.Assignments'  is null.");
             }
             var assignments = await _context.Assignments.FindAsync(id);
-            if (assignments != null)
+            var courseid = (from x in _context.Assignments
+						   where x.Id == id
+						   select x.CourseId).FirstOrDefault();
+
+			if (assignments != null)
             {
                 _context.Assignments.Remove(assignments);
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("AssignmentList", "Users", new {courseid });
         }
 
         private bool AssignmentsExists(int id)
         {
           return (_context.Assignments?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-    }
+
+		[HttpPost]
+		public ActionResult CallToList()
+		{
+			// Get the URL of the previous page
+			string previousPageUrl = Request.Headers["Referer"].ToString();
+
+			if (!string.IsNullOrEmpty(previousPageUrl))
+			{
+				// Redirect back to the previous page
+				return Redirect(previousPageUrl);
+			}
+			else
+			{
+				// Handle the case where there is no previous page URL
+				// You can redirect to a default page or display a message to the user
+				return RedirectToAction("CourseList", "UsersController"); // Example: Redirect to a default page
+			}
+		}
+	}
 }
