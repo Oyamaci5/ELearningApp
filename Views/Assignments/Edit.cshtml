@@ -3,19 +3,19 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<section class="d-flex justify-content-center align-items-center mt-4">
 
-<h1>Edit</h1>
-
-<h4>Assignments</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <h1>Edit Assignment</h1>
+    <hr />
+    <div class="col-md-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="CourseId" class="control-label"></label>
-                <input asp-for="CourseId" class="form-control" />
+                 <input asp-for="CourseId" class="form-control" value="@ViewBag.CourseId" hidden />
+                 <input type="text" class="form-control" value="@ViewBag.CourseName" />
                 <span asp-validation-for="CourseId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,16 +34,14 @@
                 <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="Save" class="btn btn-primary btn-sm mt-3" />
+                <a class="btn btn-success btn-sm mt-3" asp-action="AssignmentList" asp-controller="Users" asp-route-CourseId="@Model.CourseId">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+</section>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

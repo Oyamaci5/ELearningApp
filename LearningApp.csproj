@@ -10,7 +10,6 @@
     <None Include="Properties\serviceDependencies.local.json.user" />
     <None Include="Views\Assignments\Create.cshtml" />
     <None Include="Views\Assignments\Delete.cshtml" />
-    <None Include="Views\Assignments\Details.cshtml" />
     <None Include="Views\Assignments\Edit.cshtml" />
     <None Include="Views\Assignments\Index.cshtml" />
     <None Include="Views\Courses\Create.cshtml" />

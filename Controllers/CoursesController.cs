@@ -22,7 +22,7 @@ namespace LearningApp.Controllers
         }
 
 		// GET: Courses
-		public async Task<IActionResult> Index(int p = 1)
+		public IActionResult Index(int p = 1)
 		{
 		    var headings = _context.Courses.ToPagedList(p, 6);
 			return _context.Courses != null ?
