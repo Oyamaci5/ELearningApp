@@ -9,6 +9,7 @@ using LearningApp.Controllers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LearningApp.Models;
 using elearningapp.Models;
+using System.Security.Claims;
 
 namespace elearningapp.Controllers
 {
@@ -161,9 +162,23 @@ namespace elearningapp.Controllers
                              join y in _idcontext.Roles on x.RoleId equals y.Id
                              where x.UserId == user.Id
                              select y.Name);
+
             UserwithRole.RoleName = roleNames.FirstOrDefault();
             UserwithRole.Email = user.Email;
-            if (user == null)
+
+
+			var allroles = (from x in _idcontext.UserRoles
+							join y in _idcontext.Roles on x.RoleId equals y.Id select y).Distinct().
+                            Select(y => new SelectListItem
+							{
+								Value = y.Id,
+								Text = y.Name
+							})
+			                .ToList();
+            
+
+			ViewData["allroles"] = allroles;
+			if (user == null)
             {
                 return NotFound();
             }
@@ -248,32 +263,42 @@ namespace elearningapp.Controllers
         {
 
             List<CourseDTO> courses = new List<CourseDTO>();
-            foreach (var item in _idcontext.Courses)
+			string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var user_info = await _userManager.FindByIdAsync(currentUserId);
+            var user_role = await _userManager.GetRolesAsync(user_info);
+            var my_courses = _idcontext.Courses.ToList();
+			if (user_role.Contains("Instructor"))
             {
-                var kapali = (from user in _idcontext.Users
-                              where user.Id == item.InstructorId
-                              select user.UserName
-                    ).ToList();
-
-                var courseDTO = new CourseDTO
-                {
-                    Id = item.Id,
-                    // Populate other properties as needed
-                    InstructorName = kapali.FirstOrDefault(),
-                    Title = item.Title,
-                    Description = item.Description,
-                    Category = item.Category,
-                    InstructorId = item.InstructorId,
-                    EnrollmentCount = item.EnrollmentCount,
-                    CourseDuration = item.CourseDuration, 
-                    ImageUrl = item.ImageUrl,
-
-                };
-                courses.Add(courseDTO);
-
-
+                my_courses = (from course in _idcontext.Courses
+                             where course.InstructorId == user_info.Id
+                             select course).ToList();
             }
-            return _idcontext.Courses != null ?
+			foreach (var item in my_courses)
+			{
+				var kapali = (from user in _idcontext.Users
+							  where user.Id == item.InstructorId
+							  select user.UserName
+					).ToList();
+
+				var courseDTO = new CourseDTO
+				{
+					Id = item.Id,
+					// Populate other properties as needed
+					InstructorName = kapali.FirstOrDefault(),
+					Title = item.Title,
+					Description = item.Description,
+					Category = item.Category,
+					InstructorId = item.InstructorId,
+					EnrollmentCount = item.EnrollmentCount,
+					CourseDuration = item.CourseDuration,
+					ImageUrl = item.ImageUrl,
+
+				};
+				courses.Add(courseDTO);
+
+
+			}
+			return _idcontext.Courses != null ?
                           View(courses) :
                           Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
         }

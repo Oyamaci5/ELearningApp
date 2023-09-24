@@ -5,6 +5,7 @@ using elearningapp.Data;
 using elearningapp.Models;
 using System.Web;
 using LearningApp.Models;
+using System.Web.Helpers;
 
 namespace elearningapp.Controllers
 {
@@ -29,8 +30,18 @@ namespace elearningapp.Controllers
             concon.CourseImageUrl = con.ImageUrl;
             concon.CourseDescription = con.Description;
             concon.CourseCategory = con.Category;
-            concon.CourseEnrollmentCount = con.EnrollmentCount;
-            concon.CourseCDuration = con.CourseDuration;
+			string[] parts = (from x in _context.Users
+							  where x.Id == con.InstructorId
+							  select x.UserName).FirstOrDefault().Split('@');
+			concon.InstructorName = parts[0];
+            concon.LastUpdate = (from x in _context.Assignments
+                                 where x.CourseId == con.Id
+                                 orderby x.DueDate ascending
+                                 select x.DueDate
+                                 ).Take(1).FirstOrDefault();
+
+			concon.CourseEnrollmentCount = con.EnrollmentCount;
+            concon.CourseDuration = con.CourseDuration;
             concon.CourseId = con.Id;
 
             List<Assignments> assignments = new List<Assignments>();
