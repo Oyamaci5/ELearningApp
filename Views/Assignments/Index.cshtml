@@ -27,7 +27,7 @@
 
                     <div class="course-info d-flex justify-content-between align-items-center">
                         <h5>Trainer</h5>
-                        <p><a href="#">Sevil Öğretmen :)</a></p> <!--Buraya Instructor Name,ben yapmasını bilmiyorum -->
+                        <p><a href="#">@Model.InstructorName</a></p> <!--Buraya Instructor Name,ben yapmasını bilmiyorum -->
                     </div>
 
                     <div class="course-info d-flex justify-content-between align-items-center">
@@ -37,14 +37,14 @@
 
                     <div class="course-info d-flex justify-content-between align-items-center">
                         <h5>Last updated</h5>
-                        <p>Bir gece vakti</p> <!--Assignment DueDate, buraya sadece nasıl assignment due date eklenecek?-->
+                        <p>@Model.LastUpdate</p> <!--Assignment DueDate, buraya sadece nasıl assignment due date eklenecek?-->
                     </div>
 
                     <!--Enrolla butonu çalışmıyor-->
                     <div class="trainer d-flex justify-content-between align-items-center">
                         @if (User.IsInRole("Student"))
                         {
-                            <form method="post" asp-action="Enroll">
+                            <form method="post" asp-action="Enroll" asp-controller="Courses">
                                 <input type="hidden" name="courseId" value="@Model.CourseId" />
                                 <button type="submit" class="btn btn-primary btn-sm btn-rounded">Enroll</button>
                             </form>
