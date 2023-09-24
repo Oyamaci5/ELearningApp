@@ -4,12 +4,13 @@
 @{
 	ViewData["Title"] = "Edit User";
 }
-<div class="container">
-	<h1>Edit User</h1>
-	<hr />
-
+<section class="d-flex justify-content-center align-items-center mt-4">
+	
 	<div class="row">
-		<div class="col-md-4">
+		<h1>Edit User</h1>
+		<hr />
+
+		<div class="col-md-12">
 			<form asp-action="Edit">
 				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 				<input type="hidden" asp-for="Id" />
@@ -25,23 +26,26 @@
 				</div>
 				<div class="form-group">
 					<label asp-for="RoleName" class="control-label">Role</label>
-					<input asp-for="RoleName" class="form-control" />
+					<select asp-for="RoleName" class="form-control">
+						@foreach (var item in ViewBag.allroles)
+						{
+							<option value="@item.Value">@item.Text</option>
+						}
+					</select>
 					<span asp-validation-for="RoleName" class="text-danger"></span>
 				</div>
-
 				<!-- Add more fields as needed -->
 
-				<div class="form-group">
-					<input type="submit" value="Save" class="btn btn-primary" />
+				<div class="form-group mt-3">
+					<input type="submit" value="Save" class="btn btn-primary btn-sm" />
+					<a asp-action="Index" class="btn btn-success btn-sm">Back to User List</a>
 				</div>
 			</form>
 		</div>
 	</div>
 
-	<div>
-		<a asp-action="Index">Back to User List</a>
-	</div>
-</div>
+	
+</section>
 @section Scripts {
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");

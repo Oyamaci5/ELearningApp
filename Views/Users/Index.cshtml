@@ -23,13 +23,13 @@
 			<div class="col-xs-12">
 				<div class="box">
 					<div class="box-header">
-						<a class="" asp-action="Create">Create New User</a>
+						<a class="btn btn-primary btn-sm mt-2" asp-action="Create">Create New User</a>
 					</div>
 
 
 					<!-- /.box-header -->
 					<div class="box-body">
-						<table id="example1" class="table table-bordered table-stripe">
+						<table id="UserTable" class="table table-bordered table-stripe">
 							<thead>
 								<tr>
 									<th>User Name</th>
@@ -53,9 +53,9 @@
 											}
 										</td>
 										<td>
-											<a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
-											<a asp-action="Details" asp-route-id="@user.Id">Details</a> |
-											<a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+											<a class="btn btn-warning btn-sm mt-2"  asp-action="Edit" asp-route-id="@user.Id">Edit</a> 
+											<a class="btn btn-info btn-sm mt-2" asp-action="Details" asp-route-id="@user.Id">Details</a> 
+											<a  class="btn btn-danger btn-sm mt-2" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
 										</td>
 									</tr>
 								}

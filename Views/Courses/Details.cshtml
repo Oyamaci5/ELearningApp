@@ -3,10 +3,10 @@
 @{
 	ViewData["Title"] = "Course Details";
 }
-<div class="container">
-	<h2>@ViewData["Title"] </h2>
-
-	<div>
+<section class="d-flex justify-content-center align-items-center mt-4">
+	
+	<div class="row">
+		<h2>@ViewData["Title"] </h2>
 		<hr />
 		<dl class="dl-horizontal">
 			<dt>
@@ -52,9 +52,9 @@
 				@Html.DisplayFor(model => model.Instructor.Id)
 			</dd>
 		</dl>
+		<div>
+			<a class="btn btn-warning btn-sm btn mt-3" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
+			<a class="btn btn-success btn-sm btn mt-3" asp-action="CourseList" asp-controller="Users">Back to List</a>
+		</div>
 	</div>
-	<div>
-		<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-		<a asp-action="Index">Back to List</a>
-	</div>
-</div>
+</section>

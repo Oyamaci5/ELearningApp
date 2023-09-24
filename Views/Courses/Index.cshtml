@@ -47,7 +47,7 @@
                             <img src="images/@item.ImageUrl" class="img-fluid" alt="..." width="400" height="200"> @*images/@($"course-{i}.png")*@
                             <div class="course-content">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4>@item.Title</h4>
+                                    <h4>@item.Category</h4>
                                 </div>
 
                                 <h3><a asp-action="" asp-controller="Assignments" asp-route-id="@item.Id">@item.Title</a></h3>

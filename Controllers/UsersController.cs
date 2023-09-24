@@ -8,25 +8,56 @@ using elearningapp.Data;
 using LearningApp.Controllers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LearningApp.Models;
+using elearningapp.Models;
+using System.Security.Claims;
 
 namespace elearningapp.Controllers
 {
-    
+
     public class UsersController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly LearningAppIdentityDbContext _idcontext;
 
-        public UsersController(UserManager<IdentityUser> userManager , LearningAppIdentityDbContext contextid )
+        public UsersController(UserManager<IdentityUser> userManager, LearningAppIdentityDbContext contextid)
         {
-            _idcontext = contextid; 
-			_userManager = userManager;
-		}
+            _idcontext = contextid;
+            _userManager = userManager;
+        }
         //GET : Dashboard
         [Authorize(Roles = "Admin,Instructor")]
         public async Task<IActionResult> Dashboard()
         {
-			return View();
+            var courses = (from x in _idcontext.Courses
+                          select x).ToList();
+
+            var courseCount = courses.Count();
+
+            var instructorCount = (from user in _idcontext.Users
+                                   join userRole in _idcontext.UserRoles on user.Id equals userRole.UserId
+                                   join role in _idcontext.Roles on userRole.RoleId equals role.Id
+                                   where role.Name == "Instructor"
+                                   select user).ToList().Count();
+
+            var studentCount = (from user in _idcontext.Users
+                                 join userRole in _idcontext.UserRoles on user.Id equals userRole.UserId
+                                 join role in _idcontext.Roles on userRole.RoleId equals role.Id
+                                 where role.Name == "Student"
+                                 select user).ToList().Count();
+
+            var assignmentCount = (from assign in _idcontext.Assignments
+                                   select assign).ToList().Count();
+
+            var Dashboardmodel = new DashboardModel
+            {
+                AssignmentCount = assignmentCount,
+                StudentCount = studentCount,
+                CourseCount = courseCount,
+                InstructorCount = instructorCount,
+                courses = courses,
+
+            };
+            return View(Dashboardmodel);
         }
         [Authorize(Roles = "Admin")]
         // GET: Users
@@ -36,30 +67,30 @@ namespace elearningapp.Controllers
             var users = await _userManager.Users.ToListAsync();
             List<UserWasRole> list = new List<UserWasRole>();
 
-            
+
             /*var roles = await _userManager.GetRolesAsync(user.Identity.GetUserId());  */
             foreach (IdentityUser user in users)
             {
                 UserWasRole UserwithRole = new UserWasRole();
                 UserwithRole.Roles = new List<string>();
                 UserwithRole.Username = user.UserName;
-				UserwithRole.Id = user.Id;
-				//UserwithRole.Roles = _userManager.GetRolesAsync(user.Id.ToString());     
-				var sqlRoles = (from x in _idcontext.UserRoles
-                            where x.UserId == user.Id
-                            select x).ToList();
+                UserwithRole.Id = user.Id;
+                //UserwithRole.Roles = _userManager.GetRolesAsync(user.Id.ToString());     
+                var sqlRoles = (from x in _idcontext.UserRoles
+                                where x.UserId == user.Id
+                                select x).ToList();
                 //UserwithRole.Roles = sqlRoles.ToList<string>();
-                foreach(var role in sqlRoles)
+                foreach (var role in sqlRoles)
                 {
-                    
-					var roleNames = (from x in _idcontext.Roles
-								   where x.Id == role.RoleId
-								   select x).ToList();
-                    foreach(var name in roleNames)
+
+                    var roleNames = (from x in _idcontext.Roles
+                                     where x.Id == role.RoleId
+                                     select x).ToList();
+                    foreach (var name in roleNames)
                     {
-						UserwithRole.Roles.Add(name.Name);
-					}
-				}
+                        UserwithRole.Roles.Add(name.Name);
+                    }
+                }
                 list.Add(UserwithRole);
             }
 
@@ -131,9 +162,23 @@ namespace elearningapp.Controllers
                              join y in _idcontext.Roles on x.RoleId equals y.Id
                              where x.UserId == user.Id
                              select y.Name);
+
             UserwithRole.RoleName = roleNames.FirstOrDefault();
             UserwithRole.Email = user.Email;
-            if (user == null)
+
+
+			var allroles = (from x in _idcontext.UserRoles
+							join y in _idcontext.Roles on x.RoleId equals y.Id select y).Distinct().
+                            Select(y => new SelectListItem
+							{
+								Value = y.Id,
+								Text = y.Name
+							})
+			                .ToList();
+            
+
+			ViewData["allroles"] = allroles;
+			if (user == null)
             {
                 return NotFound();
             }
@@ -218,36 +263,61 @@ namespace elearningapp.Controllers
         {
 
             List<CourseDTO> courses = new List<CourseDTO>();
-            foreach(var item in _idcontext.Courses)
+			string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var user_info = await _userManager.FindByIdAsync(currentUserId);
+            var user_role = await _userManager.GetRolesAsync(user_info);
+            var my_courses = _idcontext.Courses.ToList();
+			if (user_role.Contains("Instructor"))
             {
-                    var kapali = (from user in _idcontext.Users
-                                  where user.Id == item.InstructorId
-                                  select user.UserName
-                        ).ToList();
-
-                    var courseDTO = new CourseDTO
-                    {
-                        Id = item.Id,
-                        // Populate other properties as needed
-                        InstructorName = kapali.FirstOrDefault(),
-                        Title = item.Title,
-                        Description = item.Description,
-                        Category = item.Category,
-                        InstructorId = item.InstructorId,
-                        EnrollmentCount = item.EnrollmentCount,
-                        ImageUrl = item.ImageUrl,
-
-                    };
-                    courses.Add(courseDTO);
-                
-               
+                my_courses = (from course in _idcontext.Courses
+                             where course.InstructorId == user_info.Id
+                             select course).ToList();
             }
+			foreach (var item in my_courses)
+			{
+				var kapali = (from user in _idcontext.Users
+							  where user.Id == item.InstructorId
+							  select user.UserName
+					).ToList();
+
+				var courseDTO = new CourseDTO
+				{
+					Id = item.Id,
+					// Populate other properties as needed
+					InstructorName = kapali.FirstOrDefault(),
+					Title = item.Title,
+					Description = item.Description,
+					Category = item.Category,
+					InstructorId = item.InstructorId,
+					EnrollmentCount = item.EnrollmentCount,
+					CourseDuration = item.CourseDuration,
+					ImageUrl = item.ImageUrl,
+
+				};
+				courses.Add(courseDTO);
+
+
+			}
 			return _idcontext.Courses != null ?
                           View(courses) :
                           Problem("Entity set 'LearningAppDbContext.Courses'  is null.");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AssignmentList([FromQuery] int CourseId)
+        {
+            List<Assignments> assignments = new List<Assignments>((from x in _idcontext.Assignments
+                                                                   where x.CourseId == CourseId
+																   select x
+                        ).ToList());
+
+            ViewData["CourseName"] = (from x in _idcontext.Courses
+                                     where x.Id == CourseId
+									  select x.Title).FirstOrDefault();
+            ViewData["CourseId"] = CourseId;
+            return View(assignments);
+        }
+
     }
-
-
 }
 
