@@ -17,12 +17,15 @@ namespace elearningapp.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly LearningAppIdentityDbContext _idcontext;
 
-        public UsersController(UserManager<IdentityUser> userManager, LearningAppIdentityDbContext contextid)
+        public UsersController(UserManager<IdentityUser> userManager, LearningAppIdentityDbContext contextid, RoleManager<IdentityRole> roleManager)
         {
             _idcontext = contextid;
             _userManager = userManager;
+            _roleManager = roleManager;
+           
         }
         //GET : Dashboard
         [Authorize(Roles = "Admin,Instructor")]
@@ -100,27 +103,42 @@ namespace elearningapp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            return View();
+            UserCreateModel model = new UserCreateModel();
+			ViewBag.RoleNames = (from x in _idcontext.Roles select x.Name).ToList();
+			return View(model);
         }
         [Authorize(Roles = "Admin")]
         // POST: Users/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserName,Email,PasswordHash")] IdentityUser user)
+        public async Task<IActionResult> Create(UserCreateModel user , [Bind("RoleName")] string RoleName)
         {
             if (ModelState.IsValid)
             {
-                var result = await _userManager.CreateAsync(user);
+			
+				var userasd = new IdentityUser();
+				userasd.UserName = user._IdentityUser.UserName;
+                userasd.Email = user._IdentityUser.Email;
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
+				string userPWD = user._IdentityUser.PasswordHash;
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+				IdentityResult chkUser = await _userManager.CreateAsync(userasd, userPWD);
+
+				//Add default User to Role Admin
+				if (chkUser.Succeeded)
+				{
+					var result1 = await _userManager.AddToRoleAsync(userasd, RoleName);
+					if (result1.Succeeded)
+					{
+						return RedirectToAction("", "Users");
+					}
+
+					foreach (var error in result1.Errors)
+					{
+						ModelState.AddModelError(string.Empty, error.Description);
+					}
+				}
+
+				
             }
 
             return View(user);
@@ -167,8 +185,8 @@ namespace elearningapp.Controllers
             UserwithRole.Email = user.Email;
 
 
-			var allroles = (from x in _idcontext.UserRoles
-							join y in _idcontext.Roles on x.RoleId equals y.Id select y).Distinct().
+			var allroles = (from x in _idcontext.Roles
+                            select x).
                             Select(y => new SelectListItem
 							{
 								Value = y.Id,
@@ -189,7 +207,7 @@ namespace elearningapp.Controllers
         // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email")] IdentityUser user)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email")] IdentityUser user, [Bind("RoleName")] string RoleName)
         {
             if (id != user.Id)
             {
@@ -203,9 +221,13 @@ namespace elearningapp.Controllers
                 {
                     return NotFound();
                 }
-
+               
                 existingUser.UserName = user.UserName;
                 existingUser.Email = user.Email;
+
+                var userRole = await _userManager.GetRolesAsync(existingUser);
+                await _userManager.RemoveFromRoleAsync(existingUser, userRole[0]);
+                await _userManager.AddToRoleAsync(existingUser, RoleName);
 
                 var result = await _userManager.UpdateAsync(existingUser);
 

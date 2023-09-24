@@ -41,11 +41,13 @@
         <div class="container" data-aos="fade-up">
             <div class="row">
                 <div class="col-md-3">
-                    <h2>Search</h2>
+                    <h3>Search</h3>
                     <!-- Search form -->
-                    <div class="md-form mt-0">
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                    </div>
+                    <form method="post" asp-action="Index" asp-controller="Courses">
+                         <input class="form-control" name="SearchString" type="text" placeholder="Search" aria-label="Search">
+                          <input type="submit" value="Filter" class="btn btn-primary btn-sm mt-3" />
+                          <a value="" asp-action="" asp-controller="Courses" class="btn btn-secondary btn-sm mt-3">Reset</a>
+                    </form>
                 </div>
                 <div class="col-md-9">
                     <div class="row" data-aos="zoom-in" data-aos-delay="100">

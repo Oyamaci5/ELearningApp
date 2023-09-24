@@ -10,7 +10,6 @@
         public int EnrollmentCount { get; set; }
         public string? ImageUrl { get; set; }
         public int CourseDuration { get; set; }
-
-        public string? InstructorName { get; set; }
+		public string? InstructorName { get; set; }
     }
 }
