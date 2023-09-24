@@ -1,4 +1,5 @@
 ﻿using elearningapp.Models;
+using LearningApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,5 +20,7 @@ namespace elearningapp.Data
 		public DbSet<Courses> Courses { get; set; }
 		public DbSet<Enrollments> Enrollments { get; set; }
 		public DbSet<Assignments> Assignments { get; set; }
+
+        public DbSet<CourseProgress> CourseProgresses { get; set; }
 	}
 }
