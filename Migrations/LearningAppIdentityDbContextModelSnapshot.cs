@@ -249,7 +249,7 @@ namespace LearningApp.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Assignments");
+                    b.ToTable("Assignments", (string)null);
                 });
 
             modelBuilder.Entity("elearningapp.Models.Courses", b =>
@@ -288,7 +288,7 @@ namespace LearningApp.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("elearningapp.Models.Enrollments", b =>
@@ -313,7 +313,7 @@ namespace LearningApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Enrollments");
+                    b.ToTable("Enrollments", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
