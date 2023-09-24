@@ -9,19 +9,22 @@ using PagedList;
 using PagedList.Mvc;
 using NuGet.Protocol.Core.Types;
 using System.Drawing.Printing;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LearningApp.Controllers
 {
     public class CoursesController : Controller
     {
         private readonly LearningAppIdentityDbContext _context;
-
-        public CoursesController(LearningAppIdentityDbContext context)
+		private readonly IWebHostEnvironment _webHostEnvironment;
+		public CoursesController(LearningAppIdentityDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
-        }
+			_webHostEnvironment = webHostEnvironment;
+		}
 
-		// GET: Courses
+        // GET: Courses
+        [HttpGet]
 		public IActionResult Index(int p = 1)
 		{
 		    var headings = _context.Courses.ToPagedList(p, 6);
@@ -29,7 +32,15 @@ namespace LearningApp.Controllers
 			View(headings) :
               Problem("Entity set 'LearningAppIdentityDbContext.Courses'  is null.");
         }
-
+        [HttpPost]
+        public IActionResult Index(int p = 1, string searchString="")
+        {
+            var sortedCourses = _context.Courses
+                                .Where(course => course.Title.Contains(searchString))
+                                .ToList();
+            var headings = sortedCourses.ToPagedList(p, 6);
+            return View(headings);
+        }
         // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -52,7 +63,7 @@ namespace LearningApp.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            var instructors = (from user in _context.Users
+			var instructors = (from user in _context.Users
 								join userRole in _context.UserRoles on user.Id equals userRole.UserId
 								join role in _context.Roles on userRole.RoleId equals role.Id
 								where role.Name == "Instructor"
@@ -62,23 +73,48 @@ namespace LearningApp.Controllers
 								   Text = user.UserName,
 
 							   }).ToList();
+			if (User.IsInRole("Admin"))
+			{
+				ViewData["InstructorId"] = instructors;
+			}
+            else
+            {
+                var user_id = HttpContext.User.Claims.First().Value;
+				ViewData["InstructorName"] = (from x in _context.Users where x.Id == user_id select x.UserName).FirstOrDefault();
+				ViewData["InstructorId"] = user_id;
 
-			ViewData["InstructorId"] = instructors;
-            return View(new CourseDTO());
+			}
+				
+			return View(new CourseCreateDto());
         }
 
         // POST: Courses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,InstructorId,Category,EnrollmentCount,ImageUrl,CourseDuration")] CourseDTO courses)
+        public async Task<IActionResult> Create( CourseCreateDto courses)
         {
             if (ModelState.IsValid)
             {
+				if (courses.CourseImage != null && courses.CourseImage.Length > 0)
+				{
+					// Dosya yükleme courses
+					string fileName = Guid.NewGuid().ToString() + Path.GetExtension(courses.CourseImage.FileName);
+					string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", fileName);
 
-                _context.Add(new Courses
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						courses.CourseImage.CopyTo(stream);
+					}
+
+					// ImageUrl'i ayarla
+					courses.ImageUrl = fileName;
+					courses.ImageUrl = courses.ImageUrl;
+				}
+
+				_context.Add(new Courses
                 {
+
                     Title = courses.Title,
                     ImageUrl = courses.ImageUrl,
                     Description = courses.Description,
@@ -118,8 +154,18 @@ namespace LearningApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["InstructorData"] = instructors;
-            return View(courses);
+            CourseEditDto cto = new CourseEditDto();
+
+			cto.Title = courses.Title;
+			cto.Description = courses.Description;
+			cto.CourseDuration = courses.CourseDuration;
+			cto.EnrollmentCount = courses.EnrollmentCount;
+			cto.InstructorId = courses.InstructorId;
+            cto.ImageUrl = courses.ImageUrl;
+			cto.Category = courses.Category;
+            
+			ViewData["InstructorData"] = instructors;
+            return View(cto);
         }
 
         // POST: Courses/Edit/5
@@ -127,32 +173,43 @@ namespace LearningApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,InstructorId,Category,EnrollmentCount,ImageUrl,CourseDuration")] CourseDTO courses)
+        public async Task<IActionResult> Edit(CourseEditDto courses)
         {
-            if (id != courses.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var existingCourse = await _context.Courses.FindAsync(id);
-                    if (existingCourse == null)
+                    var existingCourse = await _context.Courses.FindAsync(courses.Id);
+					if (courses.CourseImage != null && courses.CourseImage.Length > 0 && courses.ImageUrl != existingCourse.ImageUrl)
+					{
+						// Dosya yükleme işlemi
+						string fileName = Guid.NewGuid().ToString() + Path.GetExtension(courses.CourseImage.FileName);
+						string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", fileName);
+
+						using (var stream = new FileStream(filePath, FileMode.Create))
+						{
+							courses.CourseImage.CopyTo(stream);
+						}
+
+						// ImageUrl'i ayarla
+						courses.ImageUrl =  fileName;
+						existingCourse.ImageUrl = courses.ImageUrl;
+					}
+					if (existingCourse == null)
                     {
                         return NotFound();
                     }
 
                     // Map data from CourseDTO to existingCourse
                     existingCourse.Title = courses.Title;
-                    existingCourse.ImageUrl = courses.ImageUrl;
                     existingCourse.Description = courses.Description;
                     existingCourse.CourseDuration = courses.CourseDuration;
                     existingCourse.EnrollmentCount = courses.EnrollmentCount;
-                    existingCourse.InstructorId = courses.InstructorId;
-                    existingCourse.Category = courses.Category;
-
+					existingCourse.Category = courses.Category;
+                    if (User.IsInRole("Admin"))
+                    {
+                        existingCourse.InstructorId = courses.InstructorId;
+                    }
                     _context.Update(existingCourse);
                     await _context.SaveChangesAsync();
                 }
