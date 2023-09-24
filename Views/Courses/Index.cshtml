@@ -3,82 +3,96 @@
 @using System.Web;
 @model PagedList.IPagedList<elearningapp.Models.Courses>
 @{
-	var i = 0;
+    var i = 0;
 }
 <head>
-	<meta charset="UTF-8">
-	<title>Courses</title>
-	<style>
-		.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px; /* Adjust the margin as needed for spacing */
-}
+    <meta charset="UTF-8">
+    <title>Courses</title>
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Adjust the margin as needed for spacing */
+        }
 
-/* Style individual pagination items */
-.pagination li {
-    list-style-type: none;
-    margin: 0 5px; /* Adjust the margin to control the separation between buttons */
-}
+            /* Style individual pagination items */
+            .pagination li {
+                list-style-type: none;
+                margin: 0 5px; /* Adjust the margin to control the separation between buttons */
+            }
 
-/* Style active pagination item */
-.pagination li.active a {
-    font-weight: bold;
-}
-	</style>
+                /* Style active pagination item */
+                .pagination li.active a {
+                    font-weight: bold;
+                }
+    </style>
 </head>
 <main id="main" data-aos="fade-in">
 
-	<!-- ======= Breadcrumbs ======= -->
-	<div class="breadcrumbs">
-		<div class="container">
-			<h2>Courses</h2>
-		</div>
-	</div><!-- End Breadcrumbs -->
-	<!-- ======= Courses Section ======= -->
-	<section id="courses" class="courses">
-		<div class="container" data-aos="fade-up">
-			<div class="row" data-aos="zoom-in" data-aos-delay="100">
-				@foreach (var item in Model)
-				{
-					i++;
-					<div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-                        <div class="course-item">
-                            <img src="images/@item.ImageUrl" class="img-fluid" alt="..." width="400" height="200"> @*images/@($"course-{i}.png")*@
-                            <div class="course-content">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4>@item.Category</h4>
-                                </div>
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <h2>Courses</h2>
+        </div>
+    </div><!-- End Breadcrumbs -->
+    <!-- ======= Courses Section ======= -->
+    <section id="courses" class="courses">
+        <div class="container" data-aos="fade-up">
+            <div class="row">
+                <div class="col-md-3">
+                    <h2>Search</h2>
+                    <!-- Search form -->
+                    <div class="md-form mt-0">
+                        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row" data-aos="zoom-in" data-aos-delay="100">
 
-                                <h3><a asp-action="" asp-controller="Assignments" asp-route-id="@item.Id">@item.Title</a></h3>
-                                <p>@item.Description.</p>
-                                <div class="trainer d-flex justify-content-between align-items-center">
-                                    @if (User.IsInRole("Student"))
-                                    {
-                                        <form method="post" asp-action="Enroll">
-                                            <input type="hidden" name="courseId" value="@item.Id" />
-                                            <button type="submit" class="btn btn-primary btn-sm btn-rounded">Enroll</button>
-                                        </form>
-                                    }
-                                    <div class="trainer-rank d-flex align-items-center">
-                                        <i class="bi bi-person">@item.EnrollmentCount</i>
-                                        &nbsp;&nbsp;
-                                        <i class="bi bi-clock">@item.CourseDuration</i>
+                        @foreach (var item in Model)
+                        {
+                            i++;
+                            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                                <div class="course-item">
+                                    <img src="images/@item.ImageUrl" class="img-fluid" alt="..." width="400" height="200"> @*images/@($"course-{i}.png")*@
+                                    <div class="course-content">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h4>@item.Category</h4>
+                                        </div>
+
+                                        <h3><a asp-action="" asp-controller="Assignments" asp-route-id="@item.Id">@item.Title</a></h3>
+                                        <p>@item.Description.</p>
+                                        <div class="trainer d-flex justify-content-between align-items-center">
+                                            @if (User.IsInRole("Student"))
+                                            {
+                                                <form method="post" asp-action="Enroll">
+                                                    <input type="hidden" name="courseId" value="@item.Id" />
+                                                    <button type="submit" class="btn btn-primary btn-sm btn-rounded">Enroll</button>
+                                                </form>
+                                            }
+                                            <div class="trainer-rank d-flex align-items-center">
+                                                <i class="bi bi-person">@item.EnrollmentCount</i>
+                                                &nbsp;&nbsp;
+                                                <i class="bi bi-clock">@item.CourseDuration</i>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-					</div> <!-- End Course Item -->
-					
-					@if (i % 3 == 0)
-					{
-						@:</div>
-						@:<div class="row" data-aos="zoom-in" data-aos-delay="100">
-					}
-				}
-			</div>
-			<!-- Add button to change page -->
-			   <div class="row">
+                            </div> <!-- End Course Item -->
+
+                            @if (i % 3 == 0)
+                            {
+                            @:</div>
+                            @:<div class="row" data-aos="zoom-in" data-aos-delay="100">
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add button to change page -->
+            <div class="row">
+
                 <div class="col-md-12 text-center">
                     <ul class="pagination">
                         @if (Model.PageCount > 1)
@@ -94,6 +108,6 @@
                 </div>
             </div>
 
-		</div>
-	</section>
+        </div>
+    </section>
 </main>
