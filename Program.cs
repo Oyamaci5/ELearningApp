@@ -10,9 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDefaultIdentity<IdentityUser>
+builder.Services.AddDefaultIdentity<IdentityUser >
     //.AddDefaultTokenProviders()
-    (options => options.SignIn.RequireConfirmedAccount = false)
+    (options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<LearningAppIdentityDbContext>();
 //builder.Services.AddIdentity<IdentityUser, IdentityRole>()

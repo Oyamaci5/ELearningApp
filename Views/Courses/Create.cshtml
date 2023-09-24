@@ -1,5 +1,5 @@
 ﻿@using LearningApp.Models;
-@model CourseDTO
+@model CourseCreateDto
 
 @{
 	ViewData["Title"] = "Create";
@@ -9,7 +9,7 @@
 	<h4>Courses</h4>
 	<hr />
 		<div class="col-md-12">
-			<form asp-action="Create" method="post">
+			<form asp-action="Create" method="post" enctype="multipart/form-data">
 				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 				<div class="form-group">
 					<label asp-for="Title" class="control-label"></label>
@@ -21,16 +21,29 @@
 					<input asp-for="Description" class="form-control" />
 					<span asp-validation-for="Description" class="text-danger"></span>
 				</div>
-				<div class="form-group">
-					<label asp-for="InstructorId" class="control-label">Instructor Name</label>
-					<select asp-for="InstructorId" class="form-control">
-						@foreach (var item in ViewBag.InstructorId)
-						{
-							<option value="@item.Value">@item.Text</option>
-						}
+				@if (User.IsInRole("Admin"))
+				{
+					<div class="form-group">
+						<label asp-for="InstructorId" class="control-label">Instructor Name</label>
+						<select asp-for="InstructorId" class="form-control">
+							@foreach (var item in ViewBag.InstructorId)
+							{
+								<option value="@item.Value">@item.Text</option>
+							}
 
-					</select>
-				</div>
+						</select>
+					</div>
+				}
+				else
+				{
+					<div class="form-group">
+						<label class="control-label"></label>
+						<input value="@ViewBag.InstructorName" class="form-control" disabled />
+						<input asp-for="InstructorId" value="@ViewBag.InstructorId" class="form-control" hidden/>
+					</div>
+						
+				}
+
 				<div class="form-group">
 					<label asp-for="Category" class="control-label"></label>
 					<input asp-for="Category" class="form-control" />
@@ -42,9 +55,9 @@
 					<span asp-validation-for="EnrollmentCount" class="text-danger"></span>
 				</div>
 				<div class="form-group">
-					<label asp-for="ImageUrl" class="control-label"></label>
-					<input asp-for="ImageUrl" class="form-control" />
-					<span asp-validation-for="ImageUrl" class="text-danger"></span>
+					<label asp-for="CourseImage"></label>
+					<input type="file" name="CourseImage" class="form-control" />
+					<small class="text-danger"><strong>*</strong> Resminiz 400:200 oranında olmalıdır.</small>
 				</div>
 				<div class="form-group">
 					<label asp-for="CourseDuration" class="control-label"></label>

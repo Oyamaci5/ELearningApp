@@ -1,4 +1,4 @@
-﻿@model elearningapp.Models.Courses
+﻿@model LearningApp.Models.CourseEditDto
 
 @{
 	ViewData["Title"] = "Edit";
@@ -10,7 +10,7 @@
 		<h2>Edit Courses</h2>
 		<hr />
 		<div class="col-md-12">
-			<form asp-action="Edit">
+			<form asp-action="Edit" method="post" enctype="multipart/form-data">
 				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 				<input type="hidden" asp-for="Id" />
 				<div class="form-group">
@@ -23,16 +23,20 @@
 					<input asp-for="Description" class="form-control" />
 					<span asp-validation-for="Description" class="text-danger"></span>
 				</div>
-				<div class="form-group">
-					<label asp-for="InstructorId" class="control-label"></label>
-					<select asp-for="InstructorId" class="form-control">
-						@foreach (var item in ViewBag.InstructorData)
-						{
-							<option value="@item.Value">@item.Text</option>
-						}
-					</select>
-					<span asp-validation-for="InstructorId" class="text-danger"></span>
-				</div>
+				@if (User.IsInRole("Admin"))
+				{
+					<div class="form-group">
+						<label asp-for="InstructorId" class="control-label"></label>
+						<select asp-for="InstructorId" class="form-control">
+							@foreach (var item in ViewBag.InstructorData)
+							{
+								<option value="@item.Value">@item.Text</option>
+							}
+						</select>
+						<span asp-validation-for="InstructorId" class="text-danger"></span>
+					</div>
+				}
+				
 				<div class="form-group">
 					<label asp-for="Category" class="control-label"></label>
 					<input asp-for="Category" class="form-control" />
@@ -43,11 +47,14 @@
 					<input asp-for="EnrollmentCount" class="form-control" />
 					<span asp-validation-for="EnrollmentCount" class="text-danger"></span>
 				</div>
+				
 				<div class="form-group">
-					<label asp-for="ImageUrl" class="control-label"></label>
-					<input asp-for="ImageUrl" class="form-control" />
-					<span asp-validation-for="ImageUrl" class="text-danger"></span>
+					<label asp-for="CourseImage"></label>
+					<input type="file" name="CourseImage" class="form-control" />
+					<img src="/images/@Model.ImageUrl" width="400" height="200">
+					<small class="text-danger"><strong>*</strong> Resminiz 400:200 oranında olmalıdır.</small>
 				</div>
+
 				<div class="form-group">
 					<label asp-for="CourseDuration" class="control-label"></label>
 					<input asp-for="CourseDuration" class="form-control" />
@@ -55,9 +62,7 @@
 				</div>
 				<div class="form-group">
 					<input type="submit" value="Save" class="btn btn-primary btn-sm mt-3" />
-				</div>
-				<div>
-					<a class="btn btn-success btn-sm mt-3" asp-action="Index">Back to List</a>
+					<a class="btn btn-success btn-sm mt-3" asp-action="CourseList" asp-controller="Users">Back to List</a>
 				</div>
 			</form>
 		</div>
