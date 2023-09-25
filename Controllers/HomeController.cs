@@ -24,7 +24,9 @@ namespace elearningapp.Controllers
                            orderby x.EnrollmentCount descending
                            select x).Take(3).ToList();
 
-            var courseCount = courses.Count();
+            var courseCount = (from x in _context.Courses
+							   orderby x.EnrollmentCount descending
+							   select x).Count();
 
             var instructorCount = (from user in _context.Users
                                    join userRole in _context.UserRoles on user.Id equals userRole.UserId
