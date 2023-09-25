@@ -284,9 +284,9 @@ namespace LearningApp.Controllers
 
 			if (isEnrolled)
 			{
-				// Handle the case where the user is already enrolled
-				// You can display a message or redirect to a specific page
-				return Ok("Already enrolled");
+                // Handle the case where the user is already enrolled
+                // You can display a message or redirect to a specific page
+                return Redirect("~/Identity/Account/Manage/MyCourses");
 			}
 
 			var enrollment = new Enrollments
@@ -300,8 +300,8 @@ namespace LearningApp.Controllers
 			_context.Enrollments.Add(enrollment);
 			course.EnrollmentCount++;
 			await _context.SaveChangesAsync();
+			return Redirect("~/Identity/Account/Manage/MyCourses");
 
-			return Ok("The user has been enrolled in the course.");
 		}
 	}
 }
